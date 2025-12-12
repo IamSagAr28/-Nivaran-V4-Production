@@ -389,20 +389,21 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
         </div>
       </div>
 
-      {/* Mobile Menu - Fixed full-screen overlay with explicit white background */}
+      {/* Mobile Menu - Compact Fixed Dropdown */}
       {mobileMenuOpen && (
         <div
-          className="md:hidden fixed left-0 w-full bg-white z-[9999] overflow-y-auto"
+          className="md:hidden fixed left-0 w-full bg-white z-[9999] shadow-2xl border-b border-gray-200"
           style={{
             top: '100px', // 40px top bar + 60px nav
-            height: 'calc(100vh - 100px)',
+            maxHeight: 'calc(100vh - 120px)',
+            overflowY: 'auto',
             backgroundColor: '#ffffff' // Force opaque white
           }}
         >
-          <nav className="flex flex-col gap-0 px-6 pb-20">
+          <nav className="flex flex-col gap-0 px-6 py-2">
             <button
               onClick={() => { setMobileMenuOpen(false); navigateTo('/'); }}
-              className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-4 border-b border-gray-100"
+              className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-3 border-b border-gray-50"
             >
               Home
             </button>
