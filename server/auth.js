@@ -243,14 +243,22 @@ router.get('/google/callback', async (req, res) => {
       return res.status(403).send('Email not verified by Google');
     }
 
-    // 3. Find or Create Shopify Customer
-    const shopifyCustomer = await findOrCreateCustomer(payload);
+    // 3. Find or Create Shopify Customer (Non-fatal)
+    let shopifyCustomer = { id: null };
+    try {
+      if (typeof findOrCreateCustomer === 'function') {
+        shopifyCustomer = await findOrCreateCustomer(payload);
+      }
+    } catch (shopifyErr) {
+      console.warn('⚠️ Shopify sync failed (Login proceeding anyway):', shopifyErr.message);
+      // Proceed without Shopify ID
+    }
 
     // 4. Find or Create Local User
     const localUser = await findOrCreateLocalUser(
       payload.email,
       payload.sub,
-      shopifyCustomer.id,
+      shopifyCustomer?.id || null,
       payload.given_name,
       payload.family_name
     );
