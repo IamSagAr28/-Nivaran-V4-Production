@@ -60,12 +60,12 @@ function CategoryCard({ category, navigateTo }: { category: any; navigateTo: (pa
         onMouseLeave={handleMouseLeave}
         className="flex flex-col items-center gap-3 min-w-[80px] md:min-w-[96px] flex-shrink-0 text-[#2A2A2A] hover:text-[#DBB520] transition-all group"
       >
-        <div 
+        <div
           className="category-image-container bg-white transition-all duration-300 shadow-sm group-hover:shadow-lg border border-gray-100"
-          style={{ 
+          style={{
             width: '80px',
             height: '80px',
-            borderRadius: '50%', 
+            borderRadius: '50%',
             overflow: 'hidden',
             position: 'relative',
             aspectRatio: '1',
@@ -78,28 +78,28 @@ function CategoryCard({ category, navigateTo }: { category: any; navigateTo: (pa
             transition: 'transform 0.2s ease-out, box-shadow 0.3s ease-out'
           }}
         >
-        <img
-          src={getOptimizedImageUrl(category.image, 400, 400)}
-          alt={category.name}
-          loading="lazy"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center',
-            pointerEvents: 'none'
-          }}
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-            if (target.parentElement) {
-              target.parentElement.innerHTML = '<div class="w-full h-full bg-[#DBB520] group-hover:bg-[#F8D548] rounded-full transition-colors"></div>';
-            }
-          }}
-        />
-      </div>
-      <span className="text-xs md:text-sm text-[#374151] font-medium text-center tracking-wide group-hover:text-[#DBB520] whitespace-nowrap overflow-hidden text-ellipsis w-full px-1">{category.name}</span>
-    </button>
+          <img
+            src={getOptimizedImageUrl(category.image, 400, 400)}
+            alt={category.name}
+            loading="lazy"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              pointerEvents: 'none'
+            }}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+              if (target.parentElement) {
+                target.parentElement.innerHTML = '<div class="w-full h-full bg-[#DBB520] group-hover:bg-[#F8D548] rounded-full transition-colors"></div>';
+              }
+            }}
+          />
+        </div>
+        <span className="text-xs md:text-sm text-[#374151] font-medium text-center tracking-wide group-hover:text-[#DBB520] whitespace-nowrap overflow-hidden text-ellipsis w-full px-1">{category.name}</span>
+      </button>
     </>
   );
 }
@@ -125,12 +125,12 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
       products.forEach((product: any) => {
         // Use productType if available, otherwise fallback to first tag, or product title
         const type = product.productType || (product.tags && product.tags.length > 0 ? product.tags[0] : null);
-        
+
         // Get image URL - check images.edges structure
-        const imageUrl = product.images?.edges?.[0]?.node?.url || 
-                        product.images?.[0]?.url || 
-                        product.image?.url || 
-                        '';
+        const imageUrl = product.images?.edges?.[0]?.node?.url ||
+          product.images?.[0]?.url ||
+          product.image?.url ||
+          '';
 
         if (type && !categoryMap.has(type) && imageUrl) {
           categoryMap.set(type, {
@@ -148,18 +148,18 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
         const existingNames = new Set(categoriesArray.map(c => c.name));
         const additionalProducts = products
           .filter((p: any) => {
-            const hasImage = p.images?.edges?.[0]?.node?.url || 
-                           p.images?.[0]?.url || 
-                           p.image?.url;
+            const hasImage = p.images?.edges?.[0]?.node?.url ||
+              p.images?.[0]?.url ||
+              p.image?.url;
             return !existingNames.has(p.title) && hasImage;
           })
           .slice(0, 8 - categoriesArray.length)
           .map((product: any) => ({
             name: product.title,
-            image: product.images?.edges?.[0]?.node?.url || 
-                   product.images?.[0]?.url || 
-                   product.image?.url || 
-                   ''
+            image: product.images?.edges?.[0]?.node?.url ||
+              product.images?.[0]?.url ||
+              product.image?.url ||
+              ''
           }));
         categoriesArray = [...categoriesArray, ...additionalProducts];
         console.log(`Added ${additionalProducts.length} products as categories, total: ${categoriesArray.length}`);
@@ -171,11 +171,11 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
           if (product.collections?.edges && product.collections.edges.length > 0) {
             product.collections.edges.forEach((edge: any) => {
               const collectionName = edge.node?.title || edge.node?.handle;
-              const imageUrl = product.images?.edges?.[0]?.node?.url || 
-                             product.images?.[0]?.url || 
-                             product.image?.url || 
-                             '';
-              
+              const imageUrl = product.images?.edges?.[0]?.node?.url ||
+                product.images?.[0]?.url ||
+                product.image?.url ||
+                '';
+
               if (collectionName && !categoryMap.has(collectionName) && imageUrl) {
                 categoryMap.set(collectionName, {
                   name: collectionName,
@@ -193,17 +193,17 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
       if (categoriesArray.length === 0) {
         categoriesArray = products
           .filter((p: any) => {
-            return p.images?.edges?.[0]?.node?.url || 
-                   p.images?.[0]?.url || 
-                   p.image?.url;
+            return p.images?.edges?.[0]?.node?.url ||
+              p.images?.[0]?.url ||
+              p.image?.url;
           })
           .slice(0, 8)
           .map((product: any) => ({
             name: product.title,
-            image: product.images?.edges?.[0]?.node?.url || 
-                   product.images?.[0]?.url || 
-                   product.image?.url || 
-                   ''
+            image: product.images?.edges?.[0]?.node?.url ||
+              product.images?.[0]?.url ||
+              product.image?.url ||
+              ''
           }));
         console.log(`Using ${categoriesArray.length} products as categories (fallback)`);
       }
@@ -387,37 +387,37 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
             </button>
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-[#F8D548]/30 py-4">
-            <nav className="flex flex-col gap-4 px-4">
-              <button
-                onClick={() => { setMobileMenuOpen(false); navigateTo('/'); }}
-                className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-2"
-              >
-                Home
-              </button>
-              <button
-                onClick={() => { setMobileMenuOpen(false); navigateTo('/products'); }}
-                className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-2"
-              >
-                Shop
-              </button>
-              <button
-                onClick={() => { setMobileMenuOpen(false); navigateTo('/cart'); }}
-                className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-2"
-              >
-                Cart
-              </button>
-              <button onClick={() => handleNav('about')} className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-2">About Us</button>
-              <button onClick={() => handleNav('our-story')} className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-2">Our Story</button>
-              <button onClick={() => handleNav('workshops')} className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-2">Workshops</button>
-              <button onClick={() => handleNav('contact')} className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-2">Contact</button>
-            </nav>
-          </div>
-        )}
       </div>
+
+      {/* Mobile Menu - Absolute positioned to float over content with solid background */}
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute left-0 w-full bg-white shadow-xl border-t border-[#F8D548]/30 py-4 z-50">
+          <nav className="flex flex-col gap-4 px-6">
+            <button
+              onClick={() => { setMobileMenuOpen(false); navigateTo('/'); }}
+              className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-3 border-b border-gray-50"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => { setMobileMenuOpen(false); navigateTo('/products'); }}
+              className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-3 border-b border-gray-50"
+            >
+              Shop
+            </button>
+            <button
+              onClick={() => { setMobileMenuOpen(false); navigateTo('/cart'); }}
+              className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-3 border-b border-gray-50"
+            >
+              Cart
+            </button>
+            <button onClick={() => handleNav('about')} className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-3 border-b border-gray-50">About Us</button>
+            <button onClick={() => handleNav('our-story')} className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-3 border-b border-gray-50">Our Story</button>
+            <button onClick={() => handleNav('workshops')} className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-3 border-b border-gray-50">Workshops</button>
+            <button onClick={() => handleNav('contact')} className="text-left text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium py-3">Contact</button>
+          </nav>
+        </div>
+      )}
 
       {/* Category Icons Strip */}
       {showCategories && (
@@ -465,10 +465,10 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
               {loading ? (
                 Array(8).fill(0).map((_, i) => (
                   <div key={i} className="flex flex-col items-center gap-3 min-w-[80px] flex-shrink-0">
-                    <div 
-                      className="w-20 h-20 md:w-24 md:h-24 bg-gray-200 animate-pulse" 
-                      style={{ 
-                        borderRadius: '50%', 
+                    <div
+                      className="w-20 h-20 md:w-24 md:h-24 bg-gray-200 animate-pulse"
+                      style={{
+                        borderRadius: '50%',
                         overflow: 'hidden',
                         aspectRatio: '1'
                       }}
