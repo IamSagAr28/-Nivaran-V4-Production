@@ -1,0 +1,271 @@
+<!--
+what I changed:
+- Colors: --bg1: #0a1b2c, --bg2: #021f30 (background gradient stops); --primary: #123456; --secondary: #abcdef; --accent: #0fbf7a
+- Logo URL: https://example.com/logo.png
+- Font: Inter (Google Fonts) — system fallback stack
+- Spacing tokens: base spacing set to 8px, border radius set to 10px
+- Accessibility tweaks: ensured heading/primary copy uses white on dark background; added visible focus outlines for keyboard nav; kept muted text at 75% opacity white for readability; validated minimal contrast for interactive elements. If any text is too low contrast on your exact brand surface, increase the value of --muted to at least rgba(255,255,255,0.85).
+
+This file preserves the original HTML structure and JS behaviour (validation, show/hide password, demo autofill), only the CSS variables, logos and textual copy are replaced to match MySite's brand tokens.
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MySite — Sign in</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* brand tokens from your site */
+      --bg1: #0a1b2c; /* dark navy */
+      --bg2: #021f30; /* deep teal navy */
+      --primary: #123456; /* primary */
+      --secondary: #abcdef; /* secondary */
+      --accent: #0fbf7a; /* mint accent */
+      --card: rgba(255,255,255,0.04); /* light card glass */
+      --glass: rgba(255,255,255,0.06); /* glass for inputs */
+      --muted: rgba(255,255,255,0.75); /* default muted text (good contrast) */
+      --space: 8px; /* base spacing on your site */
+      --radius: 10px; /* border radius per your tokens */
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+      background: linear-gradient(135deg,var(--bg1) 0%, var(--bg2) 60%);
+      -webkit-font-smoothing:antialiased;
+      display:flex;align-items:center;justify-content:center;padding:calc(var(--space) * 4);color:#fff;
+    }
+
+    .container{
+      width:100%;max-width:980px;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;
+    }
+
+    /* Left: branding / promo */
+    .promo{
+      padding:calc(var(--space) * 5);border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+      box-shadow:0 8px 30px rgba(2,6,23,0.6);backdrop-filter: blur(6px);
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:56px;height:56px;border-radius:calc(var(--radius) - 4px);overflow:hidden;display:flex;align-items:center;justify-content:center;color:#04263a;background-color:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.4)
+    }
+    .logo img{width:100%;height:100%;object-fit:cover;display:block}
+    h1{margin:18px 0 6px;font-size:26px;line-height:1.05}
+    p.lead{margin:0;color:var(--muted);font-size:15px}
+
+    .features{display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:12px;margin-top:24px}
+    .feature{display:flex;gap:12px;align-items:center;padding:12px;background:var(--card);border-radius:10px}
+    .feature svg{flex-shrink:0}
+    .feature strong{display:block}
+
+    /* Right: login card */
+    .card{
+      padding:calc(var(--space) * 4);border-radius:calc(var(--radius) + 8px);background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      box-shadow:0 10px 40px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.04);
+    }
+    form{display:flex;flex-direction:column;gap:12px}
+    label{font-size:13px;color:var(--muted);margin-bottom:6px}
+    input[type="email"], input[type="password"]{
+      width:100%;padding:12px 14px;border-radius:calc(var(--radius) - 2px);background:var(--glass);border:1px solid rgba(255,255,255,0.06);color:#fff;font-size:15px
+    }
+    .input-row{position:relative}
+    .toggle-pass{position:absolute;right:8px;top:8px;background:none;border:none;padding:6px;border-radius:8px;cursor:pointer}
+
+    .meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+    .remember{display:flex;gap:8px;align-items:center}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 14px;border-radius:calc(var(--radius) - 2px);border:0;cursor:pointer;font-weight:600;font-size:15px
+    }
+    .btn-primary{background:linear-gradient(90deg,var(--accent),#10b981);color:#04263a}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    .divider{display:flex;align-items:center;gap:12px;margin:8px 0}
+    .divider::before, .divider::after{content:'';height:1px;background:rgba(255,255,255,0.04);flex:1}
+    .socials{display:flex;gap:10px}
+    .socials button{padding:10px;border-radius:10px;border:0;background:rgba(255,255,255,0.03);cursor:pointer}
+
+    .help{margin-top:8px;font-size:13px;color:var(--muted);text-align:center}
+
+    /* small screens */
+    @media (max-width:880px){
+      .container{grid-template-columns:1fr;max-width:720px}
+      .promo{order:2}
+      .card{order:1}
+    }
+
+    /* accessibility focus styles */
+    input:focus, button:focus{outline:3px solid rgba(15,191,122,0.14);outline-offset:2px}
+
+    /* subtle animation */
+    .logo{transform:translateZ(0);transition:transform .45s cubic-bezier(.2,.9,.2,1)}
+    .logo:hover{transform:translateY(-4px)}
+
+    /* validation styling */
+    .error{color:#ffb4a2;font-size:13px}
+
+    /* Branding details: ensure primary/secondary usage */
+    .promo h1{color:#fff}
+    .feature strong{color:var(--secondary)}
+    .brand .tag{color:var(--secondary)}
+    .brand .site{font-size:13px}
+    .brand .desc{font-size:12px;color:rgba(255,255,255,0.6)}
+
+    /* ensure CTA and accent meet contrast if needed */
+    .btn-primary{background:linear-gradient(90deg,var(--accent),#07a768)}
+
+    /* small visual tweaks */
+    .card .logo-mini{width:40px;height:40px}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <aside class="promo" aria-hidden="false">
+      <div class="brand">
+        <div class="logo"><img src="https://example.com/logo.png" alt="MySite logo"></div>
+        <div>
+          <div class="site">MySite</div>
+          <div class="desc">Secure portal</div>
+        </div>
+      </div>
+      <h1>Welcome back — let’s get you signed in</h1>
+      <p class="lead">Fast, secure access to your dashboard. We keep sessions short and data encrypted. Use your work or personal account to continue.</p>
+
+      <div class="features" role="list">
+        <div class="feature" role="listitem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M12 2v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 8v12h12V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <strong>Secure by default</strong>
+            <div style="font-size:13px;color:var(--muted)">2FA-ready & encrypted</div>
+          </div>
+        </div>
+
+        <div class="feature" role="listitem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M3 12h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3 6h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <strong>Clean UI</strong>
+            <div style="font-size:13px;color:var(--muted)">Designed for speed & clarity</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="card" aria-label="Sign in">
+      <form id="loginForm" novalidate>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <div style="font-weight:700">Sign in</div>
+          <a href="#" style="font-size:13px;color:var(--muted);text-decoration:none">Need help?</a>
+        </div>
+
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@company.com" autocomplete="email" required>
+          <div id="emailError" class="error" aria-live="polite" style="display:none"></div>
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <div class="input-row">
+            <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+            <button type="button" class="toggle-pass" aria-label="Show password" title="Show password">👁️</button>
+          </div>
+          <div id="passError" class="error" aria-live="polite" style="display:none"></div>
+        </div>
+
+        <div class="meta">
+          <label class="remember"><input type="checkbox" id="remember"> Remember me</label>
+          <a href="#" style="font-size:13px;color:var(--muted);text-decoration:none">Forgot password?</a>
+        </div>
+
+        <button class="btn btn-primary" id="submitBtn" type="submit">Sign in</button>
+
+        <div class="divider"> <span style="font-size:13px;color:var(--muted)">or continue with</span></div>
+
+        <div style="display:flex;gap:8px;align-items:center;justify-content:space-between">
+          <div class="socials" role="group" aria-label="social sign in">
+            <button type="button" title="Continue with Google" aria-label="Continue with Google">G</button>
+            <button type="button" title="Continue with GitHub" aria-label="Continue with GitHub">GH</button>
+            <button type="button" title="Continue with Microsoft" aria-label="Continue with Microsoft">MS</button>
+          </div>
+          <button type="button" class="btn btn-ghost" onclick="demoFaster()">Demo account</button>
+        </div>
+
+        <div class="help">Don't have an account? <a href="#" style="color:var(--accent);text-decoration:none;font-weight:600">Create one</a></div>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    // Basic client-side validation + UI niceties
+    const form = document.getElementById('loginForm');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const emailError = document.getElementById('emailError');
+    const passError = document.getElementById('passError');
+    const toggle = document.querySelector('.toggle-pass');
+    const submitBtn = document.getElementById('submitBtn');
+
+    toggle.addEventListener('click', () => {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      toggle.textContent = type === 'password' ? '👁️' : '🙈';
+      toggle.setAttribute('aria-pressed', type === 'text');
+    });
+
+    function validateEmail(value){
+      // simple but solid email regex
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let ok = true;
+      emailError.style.display = 'none';
+      passError.style.display = 'none';
+
+      if(!validateEmail(email.value.trim())){
+        emailError.textContent = 'Please enter a valid email.';
+        emailError.style.display = 'block';
+        ok = false;
+      }
+
+      if(password.value.trim().length < 6){
+        passError.textContent = 'Password must be at least 6 characters.';
+        passError.style.display = 'block';
+        ok = false;
+      }
+
+      if(!ok) return;
+
+      // demo behaviour - replace with real auth call
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing in...';
+
+      setTimeout(() => {
+        // pretend success -- in real life POST to server and handle response
+        alert('Signed in successfully (demo) — implement backend auth to continue.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign in';
+      }, 900);
+
+    });
+
+    function demoFaster(){
+      email.value = 'demo@mysite.app';
+      password.value = 'password123';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nivaran Rich Yellow Theme Swatch</title>
+    <style>
+        :root {
+            --canary-yellow: #fff75e;
+            --banana-cream: #fff056;
+            --banana-cream-2: #ffe94e;
+            --mustard: #ffe246;
+            --mustard-2: #ffda3d;
+            --mustard-3: #ffd53e;
+            --golden-pollen: #fecf3e;
+            --school-bus-yellow: #fdc43f;
+            --amber-flame: #fdbe39;
+            --sunflower-gold: #fdb833;
+
+            --yellow-600: #f3c01a;
+            --yellow-700: #e0a600;
+            --yellow-800: #b77a00;
+            
+            --text-dark: #111827;
+            --muted-text: #4b5563;
+            --panel-bg: #fff8e6;
+            --warm-bg: #fff3d1;
+        }
+        body {
+            font-family: sans-serif;
+            background-color: var(--warm-bg);
+            color: var(--text-dark);
+            padding: 40px;
+        }
+        h1 { margin-bottom: 40px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .swatch {
+            background: var(--panel-bg);
+            border: 1px solid var(--yellow-600);
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .color-box {
+            height: 100px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        .label { font-weight: bold; display: block; }
+        .hex { font-family: monospace; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <h1>Nivaran Theme System: "Rich Gold"</h1>
+    
+    <h2>Structure & Accents</h2>
+    <div class="grid">
+        <div class="swatch">
+            <div class="color-box" style="background: var(--yellow-700)"></div>
+            <span class="label">Primary / Yellow 700</span>
+            <span class="hex">#e0a600</span>
+        </div>
+        <div class="swatch">
+            <div class="color-box" style="background: var(--yellow-600)"></div>
+            <span class="label">Secondary / Yellow 600</span>
+            <span class="hex">#f3c01a</span>
+        </div>
+        <div class="swatch">
+            <div class="color-box" style="background: var(--yellow-800)"></div>
+            <span class="label">Deep Border / Yellow 800</span>
+            <span class="hex">#b77a00</span>
+        </div>
+    </div>
+
+    <h2>Backgrounds & Neutrals</h2>
+    <div class="grid" style="margin-top: 20px;">
+        <div class="swatch">
+            <div class="color-box" style="background: var(--panel-bg)"></div>
+            <span class="label">Panel Background</span>
+            <span class="hex">#fff8e6</span>
+        </div>
+        <div class="swatch">
+            <div class="color-box" style="background: var(--warm-bg)"></div>
+            <span class="label">Page Background</span>
+            <span class="hex">#fff3d1</span>
+        </div>
+        <div class="swatch">
+            <div class="color-box" style="background: var(--text-dark)"></div>
+            <span class="label" style="color: var(--text-dark)">Text Dark</span>
+            <span class="hex">#111827</span>
+        </div>
+    </div>
+
+    <h2>Brand Palette (Reference)</h2>
+    <div class="grid" style="margin-top: 20px;">
+        <div class="swatch"><div class="color-box" style="background: var(--canary-yellow)"></div><span class="label">Canary Yellow</span></div>
+        <div class="swatch"><div class="color-box" style="background: var(--mustard)"></div><span class="label">Mustard</span></div>
+        <div class="swatch"><div class="color-box" style="background: var(--school-bus-yellow)"></div><span class="label">School Bus</span></div>
+        <div class="swatch"><div class="color-box" style="background: var(--sunflower-gold)"></div><span class="label">Sunflower</span></div>
+    </div>
+</body>
+</html>
