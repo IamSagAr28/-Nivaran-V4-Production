@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from '../utils/Router';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { googleLoginUrl } from '../utils/authApi';
 
 const Login = ({ onClose }) => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -201,7 +202,7 @@ const Login = ({ onClose }) => {
             {/* Google Sign In */}
             <button
               type="button"
-              onClick={() => window.location.href = 'http://localhost:3000/auth/google'}
+              onClick={() => window.location.href = googleLoginUrl}
               disabled={loading}
               className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-[#F8D548]/60 rounded-lg text-gray-700 hover:bg-gray-50 hover:border-[#F8D548]/40 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
