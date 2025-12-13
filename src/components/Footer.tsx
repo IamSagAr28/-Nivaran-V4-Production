@@ -98,10 +98,6 @@ export function Footer() {
                 <h4 className="text-[#F8D548] font-bold mb-4">Shop</h4>
                 <div className="space-y-3">
                   <button onClick={() => navigateTo('/products')} className="block text-[#FFF6D1] hover:text-white transition-colors">All Products</button>
-                  <button onClick={() => navigateTo(`/products?category=${encodeURIComponent('Wall Hangings')}`)} className="block text-[#FFF6D1] hover:text-white transition-colors">Wall Hangings</button>
-                  <button onClick={() => navigateTo(`/products?category=${encodeURIComponent('Clutches & Pouches')}`)} className="block text-[#FFF6D1] hover:text-white transition-colors">Clutches & Pouches</button>
-                  <button onClick={() => navigateTo(`/products?category=${encodeURIComponent('Home Textiles')}`)} className="block text-[#FFF6D1] hover:text-white transition-colors">Home Textiles</button>
-                  <button onClick={() => navigateTo(`/products?category=${encodeURIComponent('Festival Items')}`)} className="block text-[#FFF6D1] hover:text-white transition-colors">Festival Items</button>
                 </div>
               </div>
 
@@ -111,9 +107,8 @@ export function Footer() {
                 <div className="space-y-3">
                   <button onClick={() => scrollToSection('about')} className="block text-[#FFF6D1] hover:text-white transition-colors">Our Story</button>
                   <button onClick={() => scrollToSection('about')} className="block text-[#FFF6D1] hover:text-white transition-colors">Mission</button>
-                  <button onClick={() => scrollToSection('about')} className="block text-[#FFF6D1] hover:text-white transition-colors">Workshops</button>
-                  <button onClick={() => scrollToSection('about')} className="block text-[#FFF6D1] hover:text-white transition-colors">Sustainability</button>
-                  <button onClick={() => scrollToSection('about')} className="block text-[#FFF6D1] hover:text-white transition-colors">Blog</button>
+                  <button onClick={() => scrollToSection('workshops')} className="block text-[#FFF6D1] hover:text-white transition-colors">Workshops</button>
+                  <button onClick={() => navigateTo('/')} className="block text-[#FFF6D1] hover:text-white transition-colors">Membership</button>
                 </div>
               </div>
             </div>
