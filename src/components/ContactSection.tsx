@@ -23,7 +23,7 @@ export const ContactSection = () => {
     };
 
     return (
-        <section ref={sectionRef} className="py-16 bg-[#FFFBF0]">
+        <section id="contact-info" ref={sectionRef} className="py-16 bg-[#FFFBF0]">
             <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
                 <style>{`
             .breathing-btn {
