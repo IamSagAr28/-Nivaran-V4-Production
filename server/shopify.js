@@ -150,9 +150,79 @@ async function subscribeToNewsletter(email) {
   }
 }
 
+/**
+ * Register a customer for a workshop (creates/updates customer with tag and note).
+ * @param {Object} data - { name, email, phone, organization, date, participants, message }
+ * @returns {Promise<Object>} Result object
+ */
+async function registerForWorkshop(data) {
+  const { name, email, phone, organization, date, participants, message } = data;
+  const [firstName, ...lastNameParts] = name.split(' ');
+  const lastName = lastNameParts.join(' ') || '';
+
+  try {
+    // 1. Find or Create Customer
+    let customer = await findCustomerByEmail(email);
+
+    // Prepare note content
+    const noteEntry = `
+--------------------------------------------------
+WORKSHOP REGISTRATION (${new Date().toISOString().split('T')[0]})
+Organization: ${organization}
+Date Preferred: ${date}
+Batch Size: ${participants}
+Phone: ${phone}
+Message: ${message}
+--------------------------------------------------`;
+
+    if (customer) {
+      // 2a. Update existing customer
+      // We append to the existing note, and ensure 'Workshop' tag is present
+      const currentTags = customer.tags || '';
+      const newTags = currentTags.includes('Workshop') ? currentTags : `${currentTags}, Workshop`;
+      const currentNote = customer.note || '';
+
+      const updatePayload = {
+        customer: {
+          id: customer.id,
+          tags: newTags,
+          note: currentNote + '\n' + noteEntry,
+          phone: phone || customer.phone // Update phone if provided
+        }
+      };
+
+      const response = await shopifyClient.put(`/customers/${customer.id}.json`, updatePayload);
+      console.log(`✅ Updated customer ${customer.id} with workshop registration`);
+      return { success: true, customer: response.data.customer, isNew: false };
+    } else {
+      // 2b. Create new customer
+      const createPayload = {
+        customer: {
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          phone: phone,
+          tags: 'Workshop, Lead',
+          note: noteEntry,
+          verified_email: true,
+          send_email_welcome: false
+        }
+      };
+
+      const response = await shopifyClient.post('/customers.json', createPayload);
+      console.log(`✨ Created new customer ${response.data.customer.id} for workshop`);
+      return { success: true, customer: response.data.customer, isNew: true };
+    }
+  } catch (error) {
+    console.error('Error registering for workshop:', error.response?.data || error.message);
+    throw error;
+  }
+}
+
 module.exports = {
   findCustomerByEmail,
   createCustomer,
   findOrCreateCustomer,
   subscribeToNewsletter,
+  registerForWorkshop,
 };

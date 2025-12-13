@@ -29,13 +29,15 @@ export const WorkshopForm: React.FC<WorkshopFormProps> = ({ onClose }) => {
         setIsSubmitting(true);
         setError(null);
         try {
-            // Mock submission
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            await axios.post(`${apiUrl}/api/workshops/register`, data);
+
             setIsSuccess(true);
             setTimeout(() => {
                 onClose();
             }, 3000);
         } catch (err) {
+            console.error(err);
             setError("Failed to submit booking. Please try again.");
         } finally {
             setIsSubmitting(false);
