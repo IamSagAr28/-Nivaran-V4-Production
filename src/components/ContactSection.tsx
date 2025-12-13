@@ -28,28 +28,28 @@ export const ContactSection = () => {
         <section id="contact-info" ref={sectionRef} className="py-16 bg-[#FFFBF0] relative">
 
             {/* Modal Overlay for Workshop Form */}
-            {/* Drawer Overlay for Workshop Form */}
+            {/* Premium Centered Modal Overlay */}
             <AnimatePresence>
                 {showWorkshopForm && (
-                    <>
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm"
+                            className="absolute inset-0 bg-black/60 backdrop-blur-md"
                             onClick={() => setShowWorkshopForm(false)}
                         />
                         <motion.div
-                            initial={{ x: "100%" }}
-                            animate={{ x: 0 }}
-                            exit={{ x: "100%" }}
-                            transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                            className="fixed inset-y-0 right-0 z-[70] w-full max-w-md bg-white shadow-2xl"
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl bg-[#FFFEF5]"
                             onClick={(e) => e.stopPropagation()}
                         >
                             <WorkshopForm onClose={() => setShowWorkshopForm(false)} />
                         </motion.div>
-                    </>
+                    </div>
                 )}
             </AnimatePresence>
 
