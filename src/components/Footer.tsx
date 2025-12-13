@@ -20,15 +20,32 @@ export function Footer() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubscribe = (e?: any) => {
+  const handleSubscribe = async (e?: any) => {
     e?.preventDefault?.();
     if (!newsletterEmail) {
       alert('Please enter your email');
       return;
     }
-    // Placeholder - connect to an email service like Mailchimp in production
-    alert(`Thanks! Subscribed ${newsletterEmail} (placeholder)`);
-    setNewsletterEmail('');
+
+    setLoading(true);
+    try {
+      const response = await axios.post(`${API_URL}/api/newsletter/subscribe`, {
+        email: newsletterEmail
+      });
+
+      if (response.data.success) {
+        alert(response.data.message || 'Thank you for subscribing!');
+        setNewsletterEmail('');
+      } else {
+        alert(response.data.error || 'Subscription failed. Please try again.');
+      }
+    } catch (error: any) {
+      console.error('Newsletter subscription error:', error);
+      const message = error.response?.data?.error || 'Failed to subscribe. Please try again.';
+      alert(message);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <footer className="bg-[#2A2A2A] text-white">
@@ -207,9 +224,10 @@ export function Footer() {
               />
               <button
                 type="submit"
-                className="px-8 py-3 bg-[#F8D548] hover:bg-[#DBB520] rounded-lg transition-all text-[#2A2A2A] font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+                disabled={loading}
+                className="px-8 py-3 bg-[#F8D548] hover:bg-[#DBB520] rounded-lg transition-all text-[#2A2A2A] font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Subscribe
+                {loading ? 'Subscribing...' : 'Subscribe'}
               </button>
             </form>
           </div>
