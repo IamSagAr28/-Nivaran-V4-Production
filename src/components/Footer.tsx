@@ -115,6 +115,9 @@ export function Footer() {
                 <h4 className="text-[#F8D548] font-bold mb-4">Shop</h4>
                 <div className="space-y-3">
                   <button onClick={() => navigateTo('/products')} className="block text-[#FFF6D1] hover:text-white transition-colors">All Products</button>
+                  <button onClick={() => navigateTo('/products')} className="block text-[#FFF6D1] hover:text-white transition-colors">Wall Hangings</button>
+                  <button onClick={() => navigateTo('/products')} className="block text-[#FFF6D1] hover:text-white transition-colors">Home Decor</button>
+                  <button onClick={() => navigateTo('/products')} className="block text-[#FFF6D1] hover:text-white transition-colors">Bags & Pouches</button>
                 </div>
               </div>
 

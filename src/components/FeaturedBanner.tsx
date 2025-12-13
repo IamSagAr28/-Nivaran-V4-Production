@@ -16,7 +16,13 @@ export function FeaturedBanner() {
             <div className="text-center space-y-4 max-w-xl text-white px-4">
               <h2 className="text-4xl md:text-5xl font-bold">Join Our Upcycling Workshops</h2>
               <p className="text-lg md:text-xl">Learn the art of transforming waste into beautiful products</p>
-              <button className="mt-6 px-8 py-3 bg-white/95 text-[#3a5a40] hover:bg-white rounded-lg transition-colors shadow-sm">
+              <button
+                onClick={() => {
+                  const section = document.getElementById('contact-info');
+                  section?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="mt-6 px-8 py-3 bg-white/95 text-[#3a5a40] hover:bg-white rounded-lg transition-colors shadow-sm"
+              >
                 Register Now
               </button>
             </div>
