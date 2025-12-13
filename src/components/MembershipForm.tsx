@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { User, Phone, Mail, MapPin, MapPinned, Navigation, Building2, Loader2 } from "lucide-react";
 import { useCart } from "../contexts/CartContext";
+import { MEMBERSHIP_VARIANTS } from "../config/membership_variants";
 
-// ⚠️ IMPORTANT: REPLACE THIS WITH YOUR REAL SHOPIFY PRODUCT VARIANT ID FOR MEMBERSHIP
-// Go to Shopify Admin > Products > Membership Product > Edit Variant > Get ID from URL or Export
-// Example format: "gid://shopify/ProductVariant/1234567890"
-const MEMBERSHIP_PRODUCT_VARIANT_ID = "gid://shopify/ProductVariant/REPLACE_WITH_REAL_ID";
 
 export function MembershipForm({ plan, onBack }: { plan: any, onBack: () => void }) {
     const { addItem, checkout } = useCart();
@@ -45,8 +42,12 @@ export function MembershipForm({ plan, onBack }: { plan: any, onBack: () => void
             return;
         }
 
-        if (MEMBERSHIP_PRODUCT_VARIANT_ID.includes("REPLACE_WITH_REAL_ID")) {
-            alert("Configuration Error: Please set the Membership Product Variant ID in the code (MembershipForm.tsx).");
+        // Lookup Variant ID
+        // @ts-ignore
+        const variantId = MEMBERSHIP_VARIANTS[plan.title]?.[selectedState];
+
+        if (!variantId || variantId.includes("REPLACE_ME")) {
+            alert("Configuration Error: Membership Variant ID not found for this selection. Please update src/config/membership_variants.ts with real Shopify IDs.");
             return;
         }
 
@@ -64,7 +65,7 @@ export function MembershipForm({ plan, onBack }: { plan: any, onBack: () => void
             ];
 
             // Add Membership to Cart
-            await addItem(MEMBERSHIP_PRODUCT_VARIANT_ID, 1, attributes);
+            await addItem(variantId, 1, attributes);
 
             // Redirect to Checkout immediately
             checkout();
