@@ -83,7 +83,8 @@ export const WorkshopForm: React.FC<WorkshopFormProps> = ({ onClose }) => {
                             <User className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-[#DBB520] group-focus-within:text-[#F8D548] transition-colors" />
                             <input
                                 {...register('name', { required: true })}
-                                className="w-full bg-gray-50 hover:bg-white border border-gray-200 focus:border-[#F8D548] rounded-2xl py-4 pl-14 pr-4 transition-all outline-none text-[#4a3b2c] font-bold placeholder:text-[#4a3b2c]/30 shadow-sm focus:shadow-xl focus:ring-4 focus:ring-[#F8D548]/10"
+                                className="w-full bg-gray-50 hover:bg-white border border-gray-200 focus:border-[#F8D548] rounded-2xl py-4 pr-4 transition-all outline-none text-[#4a3b2c] font-bold placeholder:text-[#4a3b2c]/30 shadow-sm focus:shadow-xl focus:ring-4 focus:ring-[#F8D548]/10"
+                                style={{ paddingLeft: '60px' }}
                                 placeholder="Your Name"
                             />
                         </div>
@@ -94,7 +95,8 @@ export const WorkshopForm: React.FC<WorkshopFormProps> = ({ onClose }) => {
                             <Phone className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-[#DBB520] group-focus-within:text-[#F8D548] transition-colors" />
                             <input
                                 {...register('phone', { required: true })}
-                                className="w-full bg-gray-50 hover:bg-white border border-gray-200 focus:border-[#F8D548] rounded-2xl py-4 pl-14 pr-4 transition-all outline-none text-[#4a3b2c] font-bold placeholder:text-[#4a3b2c]/30 shadow-sm focus:shadow-xl focus:ring-4 focus:ring-[#F8D548]/10"
+                                className="w-full bg-gray-50 hover:bg-white border border-gray-200 focus:border-[#F8D548] rounded-2xl py-4 pr-4 transition-all outline-none text-[#4a3b2c] font-bold placeholder:text-[#4a3b2c]/30 shadow-sm focus:shadow-xl focus:ring-4 focus:ring-[#F8D548]/10"
+                                style={{ paddingLeft: '60px' }}
                                 placeholder="+91..."
                             />
                         </div>
@@ -109,7 +111,8 @@ export const WorkshopForm: React.FC<WorkshopFormProps> = ({ onClose }) => {
                         <input
                             {...register('email', { required: true })}
                             type="email"
-                            className="w-full bg-gray-50 hover:bg-white border border-gray-200 focus:border-[#F8D548] rounded-2xl py-4 pl-14 pr-4 transition-all outline-none text-[#4a3b2c] font-bold placeholder:text-[#4a3b2c]/30 shadow-sm focus:shadow-xl focus:ring-4 focus:ring-[#F8D548]/10"
+                            className="w-full bg-gray-50 hover:bg-white border border-gray-200 focus:border-[#F8D548] rounded-2xl py-4 pr-4 transition-all outline-none text-[#4a3b2c] font-bold placeholder:text-[#4a3b2c]/30 shadow-sm focus:shadow-xl focus:ring-4 focus:ring-[#F8D548]/10"
+                            style={{ paddingLeft: '60px' }}
                             placeholder="you@email.com"
                         />
                     </div>
@@ -122,7 +125,8 @@ export const WorkshopForm: React.FC<WorkshopFormProps> = ({ onClose }) => {
                         <Building2 className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-[#DBB520] group-focus-within:text-[#F8D548] transition-colors" />
                         <input
                             {...register('organization', { required: true })}
-                            className="w-full bg-gray-50 hover:bg-white border border-gray-200 focus:border-[#F8D548] rounded-2xl py-4 pl-14 pr-4 transition-all outline-none text-[#4a3b2c] font-bold placeholder:text-[#4a3b2c]/30 shadow-sm focus:shadow-xl focus:ring-4 focus:ring-[#F8D548]/10"
+                            className="w-full bg-gray-50 hover:bg-white border border-gray-200 focus:border-[#F8D548] rounded-2xl py-4 pr-4 transition-all outline-none text-[#4a3b2c] font-bold placeholder:text-[#4a3b2c]/30 shadow-sm focus:shadow-xl focus:ring-4 focus:ring-[#F8D548]/10"
+                            style={{ paddingLeft: '60px' }}
                             placeholder="Organization Name"
                         />
                     </div>
@@ -137,7 +141,8 @@ export const WorkshopForm: React.FC<WorkshopFormProps> = ({ onClose }) => {
                             <input
                                 {...register('date')}
                                 type="date"
-                                className="w-full bg-gray-50 hover:bg-white border border-gray-200 focus:border-[#F8D548] rounded-2xl py-4 pl-14 pr-4 transition-all outline-none text-[#4a3b2c] font-bold cursor-pointer shadow-sm focus:shadow-xl focus:ring-4 focus:ring-[#F8D548]/10"
+                                className="w-full bg-gray-50 hover:bg-white border border-gray-200 focus:border-[#F8D548] rounded-2xl py-4 pr-4 transition-all outline-none text-[#4a3b2c] font-bold cursor-pointer shadow-sm focus:shadow-xl focus:ring-4 focus:ring-[#F8D548]/10"
+                                style={{ paddingLeft: '60px' }}
                             />
                         </div>
                     </div>
@@ -147,7 +152,8 @@ export const WorkshopForm: React.FC<WorkshopFormProps> = ({ onClose }) => {
                             <Users className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-[#DBB520] group-focus-within:text-[#F8D548] transition-colors" />
                             <select
                                 {...register('participants')}
-                                className="w-full bg-gray-50 hover:bg-white border border-gray-200 focus:border-[#F8D548] rounded-2xl py-4 pl-14 pr-10 transition-all outline-none text-[#4a3b2c] font-bold appearance-none cursor-pointer shadow-sm focus:shadow-xl focus:ring-4 focus:ring-[#F8D548]/10"
+                                className="w-full bg-gray-50 hover:bg-white border border-gray-200 focus:border-[#F8D548] rounded-2xl py-4 pr-10 transition-all outline-none text-[#4a3b2c] font-bold appearance-none cursor-pointer shadow-sm focus:shadow-xl focus:ring-4 focus:ring-[#F8D548]/10"
+                                style={{ paddingLeft: '60px' }}
                             >
                                 <option value="10-20">10-20 People</option>
                                 <option value="20-50">20-50 People</option>
