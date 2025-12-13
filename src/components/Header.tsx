@@ -246,7 +246,7 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
 
           {/* Buttons - Fixed to right end */}
           <div className="flex gap-4 flex-shrink-0">
-            <button onClick={() => handleNav('our-story')} className="hover:text-[#F8D548] transition-colors whitespace-nowrap">Join Our Mission</button>
+            <button onClick={() => handleNav('workshops')} className="hover:text-[#F8D548] transition-colors whitespace-nowrap">Register Now</button>
             <button onClick={() => handleNav('contact')} className="hover:text-[#F8D548] transition-colors whitespace-nowrap">Contact Us</button>
           </div>
         </div>
@@ -291,12 +291,12 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
       <div className="w-full px-4" style={{ height: '80px' }}>
         <div className="flex items-center justify-between h-full relative">
           {/* Logo - Left aligned */}
-          <div className="flex items-center justify-start gap-4 cursor-pointer px-4 overflow-hidden" onClick={() => navigateTo('/')}>
+          <div className="flex items-center justify-start gap-2 md:gap-4 cursor-pointer md:px-4" onClick={() => navigateTo('/')}>
             <img
               src="/images/logo.png"
               alt="Nivaran Logo"
-              className="h-[70px] w-auto object-contain"
-              style={{ height: '70px', maxWidth: '100%' }}
+              className="h-[60px] md:h-[70px] w-auto object-contain flex-shrink-0"
+              style={{ height: '60px', maxWidth: 'none' }}
               onError={(e) => {
                 // Fallback to original design if logo fails to load
                 const target = e.target as HTMLImageElement;
