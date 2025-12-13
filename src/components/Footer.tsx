@@ -227,9 +227,9 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[#FFF6D1]">
             <p>© 2025 Nivaran Upcyclers. All rights reserved.</p>
             <div className="flex gap-6">
-              <button onClick={() => navigateTo('/privacy')} className="hover:text-white transition-colors">Privacy Policy</button>
-              <button onClick={() => navigateTo('/terms')} className="hover:text-white transition-colors">Terms of Service</button>
-              <button onClick={() => navigateTo('/shipping')} className="hover:text-white transition-colors">Shipping Policy</button>
+              <a href="https://shop.nivaranupcyclers.in/policies/privacy-policy" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Privacy Policy</a>
+              <a href="https://shop.nivaranupcyclers.in/policies/terms-of-service" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Terms of Service</a>
+              <a href="https://shop.nivaranupcyclers.in/policies/shipping-policy" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Shipping Policy</a>
             </div>
           </div>
         </div>
