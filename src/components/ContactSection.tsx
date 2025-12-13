@@ -44,7 +44,7 @@ export const ContactSection = () => {
                             animate={{ x: 0 }}
                             exit={{ x: "100%" }}
                             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                            className="fixed inset-y-0 right-0 z-[70] w-full max-w-md bg-white shadow-2xl overflow-y-auto"
+                            className="fixed inset-y-0 right-0 z-[70] w-full max-w-md bg-white shadow-2xl"
                             onClick={(e) => e.stopPropagation()}
                         >
                             <WorkshopForm onClose={() => setShowWorkshopForm(false)} />
