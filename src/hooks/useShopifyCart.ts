@@ -133,7 +133,21 @@ export function useShopifyCart(): UseShopifyCartState {
 
   const checkout = useCallback(() => {
     if (cart?.checkoutUrl) {
-      window.location.href = cart.checkoutUrl;
+      try {
+        console.log('Original checkout URL:', cart.checkoutUrl);
+        const url = new URL(cart.checkoutUrl);
+
+        // Force hostname to myshopify.com to avoid headless redirect loops
+        // The user MUST uncheck "Redirect to primary domain" in Shopify Admin for this to work
+        url.hostname = 'nivaranupcyclers.myshopify.com';
+
+        console.log('Redirecting to checkout:', url.toString());
+        window.location.href = url.toString();
+      } catch (e) {
+        console.error('Error constructing checkout URL:', e);
+        // Fallback: just use what we have
+        window.location.href = cart.checkoutUrl;
+      }
     }
   }, [cart]);
 

@@ -688,3 +688,31 @@ export const CUSTOMER_RECOVER_MUTATION = `
     }
   }
 `;
+
+export const ARTICLES_QUERY = `
+  query GetArticles($first: Int!) {
+    articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
+      edges {
+        node {
+          id
+          title
+          handle
+          publishedAt
+          excerpt
+          content
+          image {
+            url
+            altText
+          }
+          authorV2 {
+            name
+          }
+          blog {
+            handle
+            title
+          }
+        }
+      }
+    }
+  }
+`;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://shop.nivaranupcyclers.in';
+const API_URL = 'https://nivaran-api.onrender.com';
 
 const api = axios.create({
   baseURL: API_URL,

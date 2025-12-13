@@ -29,10 +29,16 @@ export function SplitContentSection() {
               Every purchase you make supports local communities, reduces environmental impact, and contributes to a circular economy.
             </p>
             <div className="pt-4 flex gap-4">
-              <button className="px-8 py-3 bg-[#588157] text-white hover:bg-[#3a5a40] rounded-lg transition-colors">
+              <button
+                onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+                className="px-8 py-3 bg-[#588157] text-white hover:bg-[#3a5a40] rounded-lg transition-colors"
+              >
                 About Us
               </button>
-              <button className="px-8 py-3 border-2 border-[#588157] text-[#588157] hover:bg-[#a3b18a]/20 rounded-lg transition-colors">
+              <button
+                onClick={() => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' })}
+                className="px-8 py-3 border-2 border-[#588157] text-[#588157] hover:bg-[#a3b18a]/20 rounded-lg transition-colors"
+              >
                 Our Impact
               </button>
             </div>

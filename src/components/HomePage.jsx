@@ -9,6 +9,8 @@ import { MembershipPlans } from "./MembershipPlans";
 import { SplitContentSection } from "./SplitContentSection";
 import { FeaturedBanner } from "./FeaturedBanner";
 import { Testimonials } from "./Testimonials";
+import { BlogSection } from "./BlogSection";
+import { ContactSection } from "./ContactSection";
 import { Footer } from "./Footer";
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from '../utils/Router';
@@ -68,6 +70,16 @@ const HomePage = () => {
       {/* Testimonials */}
       <section id="testimonials">
         <Testimonials />
+      </section>
+
+      {/* Blog Section */}
+      <section id="blog">
+        <BlogSection />
+      </section>
+
+      {/* Contact Section - Get In Touch & Pricing */}
+      <section id="contact-info">
+        <ContactSection />
       </section>
 
       {/* Footer */}

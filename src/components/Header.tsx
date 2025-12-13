@@ -288,25 +288,26 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
       </div>
 
       {/* Main Navigation */}
-      <div className="w-full px-4" style={{ height: '60px' }}>
+      <div className="w-full px-4" style={{ height: '80px' }}>
         <div className="flex items-center justify-between h-full relative">
           {/* Logo - Left aligned */}
-          <div className="flex items-center justify-start gap-3 cursor-pointer px-4" onClick={() => navigateTo('/')}>
+          <div className="flex items-center justify-start gap-4 cursor-pointer px-4 overflow-hidden" onClick={() => navigateTo('/')}>
             <img
               src="/images/logo.png"
               alt="Nivaran Logo"
-              className="w-12 h-12 object-contain"
+              className="h-[70px] w-auto object-contain"
+              style={{ height: '70px', maxWidth: '100%' }}
               onError={(e) => {
                 // Fallback to original design if logo fails to load
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
                 if (target.parentElement) {
                   target.parentElement.innerHTML = `
-                    <div class="w-10 h-10 bg-[#DBB520] rounded-full flex items-center justify-center">
-                      <span class="text-white font-bold text-lg">♻️</span>
+                    <div class="w-[70px] h-[70px] bg-[#DBB520] rounded-full flex items-center justify-center">
+                      <span class="text-white font-bold text-3xl">♻️</span>
                     </div>
                     <div>
-                      <h1 class="text-2xl font-black text-[#1B4332]" style="font-weight: 900;">Nivaran</h1>
+                      <h1 class="text-3xl font-black text-[#1B4332]" style="font-weight: 900;">Nivaran</h1>
                       <p class="text-base font-bold text-[#1B4332] -mt-1">Upcyclers</p>
                     </div>
                   `;
@@ -314,8 +315,8 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
               }}
             />
             <div>
-              <h1 className="text-2xl font-black" style={{ fontWeight: 900, color: '#1B4332' }}>Nivaran</h1>
-              <p className="text-base font-bold" style={{ color: '#2E6F40' }}>Upcyclers</p>
+              <h1 className="text-3xl font-black tracking-tight" style={{ fontWeight: 900, color: '#1B4332' }}>Nivaran</h1>
+              <p className="text-base font-bold tracking-wide" style={{ color: '#2E6F40' }}>Upcyclers</p>
             </div>
           </div>
 
@@ -324,26 +325,26 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
             <a
               href="/"
               onClick={(e) => { e.preventDefault(); navigateTo('/'); }}
-              className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium"
+              className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium text-lg"
             >
               Home
             </a>
             <a
               href="/products"
               onClick={(e) => { e.preventDefault(); navigateTo('/products'); }}
-              className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium"
+              className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium text-lg"
             >
               Shop
             </a>
-            <a href="#about" onClick={() => handleNav('about')} className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium">About Us</a>
-            <a href="#our-story" onClick={() => handleNav('our-story')} className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium">Our Story</a>
-            <a href="#workshops" onClick={() => handleNav('workshops')} className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium">Workshops</a>
-            <a href="#contact" onClick={() => handleNav('contact')} className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium">Contact</a>
+            <a href="#about" onClick={() => handleNav('about')} className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium text-lg">About Us</a>
+            <a href="#our-story" onClick={() => handleNav('our-story')} className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium text-lg">Our Story</a>
+            <a href="#workshops" onClick={() => handleNav('workshops')} className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium text-lg">Workshops</a>
+            <a href="#contact" onClick={() => handleNav('contact')} className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors font-medium text-lg">Contact</a>
           </nav>
           {/* Action Icons - Right aligned */}
-          <div className="flex gap-4 items-center px-4">
+          <div className="flex gap-8 items-center px-4">
             <button className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors" onClick={() => navigateTo('/products')} title="Search Products">
-              <Search className="w-5 h-5" />
+              <Search className="w-6 h-6" />
             </button>
             {isAuthenticated ? (
               <button
@@ -355,7 +356,7 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
                   firstName={user?.firstName}
                   lastName={user?.lastName}
                   size="sm"
-                  className="rounded-full"
+                  className="rounded-full w-9 h-9"
                 />
               </button>
             ) : (
@@ -364,7 +365,7 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
                 onClick={(e) => { e.preventDefault(); navigateTo('/login'); }}
                 className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors"
               >
-                <User className="w-5 h-5" />
+                <User className="w-6 h-6" />
               </a>
             )}
             <a
@@ -372,7 +373,7 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
               onClick={(e) => { e.preventDefault(); navigateTo('/cart'); }}
               className="text-[#2A2A2A] hover:text-[#DBB520] transition-colors relative"
             >
-              <ShoppingBag className="w-5 h-5" />
+              <ShoppingBag className="w-6 h-6" />
               {itemCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-[#F8D548] text-[#2A2A2A] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {itemCount > 9 ? '9+' : itemCount}
@@ -383,7 +384,7 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
               className="md:hidden text-[#2A2A2A] hover:text-[#DBB520] transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="w-7 h-7" />
             </button>
           </div>
         </div>
@@ -394,8 +395,8 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
         <div
           className="md:hidden fixed left-0 w-full bg-white z-[9999] shadow-2xl border-b border-gray-200"
           style={{
-            top: '100px', // 40px top bar + 60px nav
-            maxHeight: 'calc(100vh - 120px)',
+            top: '120px', // 40px top bar + 80px nav
+            maxHeight: 'calc(100vh - 140px)',
             overflowY: 'auto',
             backgroundColor: '#ffffff' // Force opaque white
           }}

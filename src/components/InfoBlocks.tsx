@@ -32,17 +32,17 @@ export function InfoBlocks() {
 
   const [cards, setCards] = useState(cardData);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCards((prev) => {
-        const updated = [...prev];
-        updated.push(updated.shift());
-        return updated;
-      });
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
+  // Auto-rotation removed to keep cards stable
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCards((prev) => {
+  //       const updated = [...prev];
+  //       updated.push(updated.shift());
+  //       return updated;
+  //     });
+  //   }, 5000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <section className="py-12 bg-[#dad7cd]/30">

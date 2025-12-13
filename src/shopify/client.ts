@@ -23,6 +23,7 @@ import {
   CUSTOMER_CREATE_MUTATION,
   CUSTOMER_QUERY,
   CUSTOMER_RECOVER_MUTATION,
+  ARTICLES_QUERY,
 } from './queries';
 import { getFromCache, setInCache, invalidateCache } from './cache';
 
@@ -518,4 +519,24 @@ export default {
   signup,
   getCustomer,
   recoverPassword,
+  fetchArticles,
 };
+
+/**
+ * Get latest articles from all blogs
+ */
+export async function fetchArticles(limit: number = 4): Promise<any[]> {
+  try {
+    const data = await executeGraphQL<{
+      articles: {
+        edges: Array<{ node: any }>;
+      };
+    }>(ARTICLES_QUERY, { first: limit }, { cacheTTL: 60 * 60 * 1000 });
+
+    return data.articles.edges.map((edge) => edge.node);
+  } catch (error) {
+    console.error('Failed to fetch articles:', error);
+    // Return empty array instead of throwing to prevent UI crash
+    return [];
+  }
+}
