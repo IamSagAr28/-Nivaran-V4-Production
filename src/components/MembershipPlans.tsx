@@ -93,36 +93,36 @@ export function MembershipPlans() {
   return (
     <section ref={sectionRef} className="py-16 relative overflow-hidden" style={{ backgroundColor: '#F7F4ED' }}>
       {/* Background Gradient Blobs */}
-      <motion.div 
+      <motion.div
         className="absolute top-1/4 -left-1/4 w-96 h-96 rounded-full blur-3xl pointer-events-none bg-shape-1"
         style={{
           background: 'linear-gradient(135deg, #4A3F35 0%, #F3D55B 100%)',
           opacity: 0.07,
         }}
         animate={{
-            scale: [1, 1.05, 1],
-            rotate: [0, 5, 0],
+          scale: [1, 1.05, 1],
+          rotate: [0, 5, 0],
         }}
         transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut"
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut"
         }}
       />
-      <motion.div 
+      <motion.div
         className="absolute bottom-1/4 -right-1/4 w-96 h-96 rounded-full blur-3xl pointer-events-none bg-shape-2"
         style={{
           background: 'linear-gradient(135deg, #F3D55B 0%, #4A3F35 100%)',
           opacity: 0.07,
         }}
         animate={{
-            scale: [1, 1.05, 1],
-            rotate: [0, -5, 0],
+          scale: [1, 1.05, 1],
+          rotate: [0, -5, 0],
         }}
         transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
         }}
       />
 
@@ -138,29 +138,29 @@ export function MembershipPlans() {
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-12">
-            <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                animate={inView ? { width: "64px", opacity: 1 } : {}}
-                transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
-                className="header-accent"
-            />
+          <motion.div
+            initial={{ width: 0, opacity: 0 }}
+            animate={inView ? { width: "64px", opacity: 1 } : {}}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+            className="header-accent"
+          />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
             <div className="inline-block px-4 py-2 rounded-full mb-4" style={{ backgroundColor: '#F3D55B', color: '#4A3F35' }}>
-                <span className="text-sm font-medium">Join Our Mission</span>
+              <span className="text-sm font-medium">Join Our Mission</span>
             </div>
             <h2 className="text-4xl mb-4 font-bold" style={{ color: '#4A3F35' }}>
-                Annual Membership Plans - Pan India
+              Annual Membership Plans - Pan India
             </h2>
             <p className="text-lg max-w-3xl mx-auto" style={{ color: '#333333' }}>
-                Adopt our Membership plans, so that we can keep doing this work and establish a Circular Economy. 
-                Let's STOP the disrespect of POOJA NIRMALYA and see the Magic of Upcycling.
+              Adopt our Membership plans, so that we can keep doing this work and establish a Circular Economy.
+              Let's STOP the disrespect of POOJA NIRMALYA and see the Magic of Upcycling.
             </p>
             <p className="text-sm mt-4 italic" style={{ color: '#4A3F35' }}>
-                Just give us a call whenever your carton is full & we'll schedule a pickup within a year
+              Just give us a call whenever your carton is full & we'll schedule a pickup within a year
             </p>
           </motion.div>
         </div>
@@ -205,7 +205,7 @@ export function MembershipPlans() {
                 {/* Pricing for Both Regions */}
                 <div className="mb-6 space-y-3">
                   {plan.regions.map((region, idx) => (
-                    <div 
+                    <div
                       key={idx}
                       className="rounded-lg p-4"
                       style={{ backgroundColor: '#C9C5BD' }}
@@ -230,21 +230,21 @@ export function MembershipPlans() {
 
                 {/* CTA Button - All cards have the same button */}
                 <button
-                    onClick={() => handleChoosePlan(plan)}
-                    className="w-full py-3 rounded-[10px] font-semibold transition-all duration-300 hover:scale-[1.02] shadow-md hover:shadow-lg mt-auto relative z-50 pointer-events-auto"
-                    style={{
+                  onClick={() => handleChoosePlan(plan)}
+                  className="w-full py-3 rounded-[10px] font-semibold transition-all duration-300 hover:scale-[1.02] shadow-md hover:shadow-lg mt-auto relative z-50 pointer-events-auto"
+                  style={{
                     backgroundColor: '#F3D55B',
                     color: '#4A3F35',
                     boxShadow: '0 2px 8px rgba(74, 63, 53, 0.15)'
-                    }}
-                    onMouseEnter={(e) => {
+                  }}
+                  onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor = '#E6C84A';
-                    }}
-                    onMouseLeave={(e) => {
+                  }}
+                  onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = '#F3D55B';
-                    }}
+                  }}
                 >
-                    Choose Plan
+                  Choose Plan
                 </button>
               </div>
             </motion.div>
@@ -263,7 +263,11 @@ export function MembershipPlans() {
             <p className="text-sm" style={{ color: '#4A3F35' }}>
               Need help choosing? Contact us for personalized assistance
             </p>
-            <button 
+            <button
+              onClick={() => {
+                const section = document.getElementById('contact');
+                section?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="mt-6 px-8 py-3 rounded-[10px] transition-all duration-300 font-semibold shadow-md hover:shadow-lg hover:scale-[1.02]"
               style={{
                 backgroundColor: '#F3D55B',
