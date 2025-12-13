@@ -3,7 +3,7 @@ import { useRouter } from "../utils/Router";
 import { useState } from 'react';
 import axios from 'axios';
 
-const API_URL = 'https://shop.nivaranupcyclers.in';
+const API_URL = ''; // Use relative URLs - Nginx will proxy /api to backend
 
 const scrollToSection = (sectionId: string) => {
   const element = document.getElementById(sectionId);
