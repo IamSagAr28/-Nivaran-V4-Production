@@ -28,30 +28,7 @@ export const ContactSection = () => {
         <section id="contact-info" ref={sectionRef} className="py-16 bg-[#FFFBF0] relative">
 
             {/* Modal Overlay for Workshop Form */}
-            {/* Premium Centered Modal Overlay */}
-            <AnimatePresence>
-                {showWorkshopForm && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="absolute inset-0 bg-black/60 backdrop-blur-md"
-                            onClick={() => setShowWorkshopForm(false)}
-                        />
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl bg-[#FFFEF5]"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <WorkshopForm onClose={() => setShowWorkshopForm(false)} />
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
+
 
             <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
                 <style>{`
@@ -199,45 +176,43 @@ export const ContactSection = () => {
                     </div>
 
                     {/* Book a Workshop Button - Full Width */}
-                    <motion.button
-                        onClick={() => setShowWorkshopForm(true)}
-                        className="group/btn w-full flex items-center justify-center py-5 font-bold text-lg transition-all duration-500 shadow-lg shadow-[#F8D548]/30 relative overflow-hidden border-0 breathing-btn"
-                        style={{
-                            backgroundColor: '#FFF44F', // Lemon yellow background
-                            backgroundImage: 'none',
-                            borderTopLeftRadius: '0.75rem',
-                            borderTopRightRadius: '0.75rem',
-                            borderBottomLeftRadius: '0',
-                            borderBottomRightRadius: '0',
-                            width: '100%',
-                            display: 'flex',
-                            marginTop: '1.5rem',
-                            color: '#4a3b2c',
-                            paddingTop: '22.5px',
-                            paddingBottom: '22.5px'
-                        }}
-                        animate={inView ? { scale: [1, 1.015, 1] } : { scale: 1 }}
-                        transition={{
-                            duration: 8,
-                            repeat: Infinity,
-                            repeatDelay: 2,
-                            ease: "easeInOut",
-                        }}
-                        whileHover={{
-                            scale: 1.05,
-                            boxShadow: '0 24px 50px rgba(248, 213, 72, 0.35)',
-                        }}
-                    >
-                        <motion.span
-                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent transform -translate-x-full opacity-70"
-                            animate={{ x: ['-120%', '120%'] }}
-                            transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 10, ease: 'easeInOut' }}
-                        ></motion.span>
-                        <span className="relative z-10 flex items-center gap-2" style={{ color: '#4a3b2c' }}>
-                            Book a Workshop
-                            <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" style={{ color: '#4a3b2c' }} />
-                        </span>
-                    </motion.button>
+                    <div className="relative z-20">
+                        <motion.button
+                            onClick={() => setShowWorkshopForm(!showWorkshopForm)}
+                            className={`group/btn w-full flex items-center justify-center py-5 font-black text-xl transition-all duration-500 shadow-xl relative overflow-hidden border-0 ${showWorkshopForm ? 'rounded-t-2xl rounded-b-none' : 'rounded-2xl'}`}
+                            style={{
+                                backgroundColor: '#FFF44F', // Lemon yellow
+                                color: '#4a3b2c',
+                            }}
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
+                        >
+                            <span className="relative z-10 flex items-center gap-3">
+                                {showWorkshopForm ? 'Close Booking Form' : 'Book a Fabric Upcycling Workshop'}
+                                <ArrowRight className={`w-6 h-6 transition-transform duration-300 ${showWorkshopForm ? 'rotate-90' : 'group-hover/btn:translate-x-1'}`} />
+                            </span>
+                        </motion.button>
+
+                        {/* Inline Workshop Form with Smooth Expansion */}
+                        <AnimatePresence>
+                            {showWorkshopForm && (
+                                <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: 'auto', opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.5, ease: [0.04, 0.62, 0.23, 0.98] }}
+                                    className="overflow-hidden bg-[#FFFEF5] rounded-b-3xl shadow-2xl border-t border-[#F8D548]/20"
+                                >
+                                    <div className="p-2 md:p-6">
+                                        <div className="max-w-4xl mx-auto">
+                                            {/* Pass onClose to allow form to close itself upon success */}
+                                            <WorkshopForm onClose={() => setShowWorkshopForm(false)} />
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
                 </div>
             </div>
         </section>
