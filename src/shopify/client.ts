@@ -290,7 +290,7 @@ export async function fetchCart(cartId: string): Promise<ShopifyCart | null> {
  */
 export async function addToCart(
   cartId: string,
-  lines: Array<{ variantId: string; quantity: number }>
+  lines: Array<{ variantId: string; quantity: number; attributes?: { key: string; value: string }[] }>
 ): Promise<ShopifyCart> {
   try {
     // Invalidate cart cache
@@ -299,7 +299,8 @@ export async function addToCart(
     // Transform variantId to merchandiseId for Shopify API
     const transformedLines = lines.map(line => ({
       merchandiseId: line.variantId,
-      quantity: line.quantity
+      quantity: line.quantity,
+      attributes: line.attributes || []
     }));
 
     const data = await executeGraphQL<{

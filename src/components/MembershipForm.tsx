@@ -1,7 +1,14 @@
-import { useState, useEffect } from "react";
-import { User, Phone, Mail, MapPin, MapPinned, Navigation, Building2 } from "lucide-react";
+import { useState } from "react";
+import { User, Phone, Mail, MapPin, MapPinned, Navigation, Building2, Loader2 } from "lucide-react";
+import { useCart } from "../contexts/CartContext";
+
+// ⚠️ IMPORTANT: REPLACE THIS WITH YOUR REAL SHOPIFY PRODUCT VARIANT ID FOR MEMBERSHIP
+// Go to Shopify Admin > Products > Membership Product > Edit Variant > Get ID from URL or Export
+// Example format: "gid://shopify/ProductVariant/1234567890"
+const MEMBERSHIP_PRODUCT_VARIANT_ID = "gid://shopify/ProductVariant/REPLACE_WITH_REAL_ID";
 
 export function MembershipForm({ plan, onBack }: { plan: any, onBack: () => void }) {
+    const { addItem, checkout } = useCart();
     const [formData, setFormData] = useState({
         fullName: '',
         mobile: '',
@@ -12,6 +19,7 @@ export function MembershipForm({ plan, onBack }: { plan: any, onBack: () => void
         pincode: ''
     });
     const [selectedState, setSelectedState] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleInputChange = (field: string, value: string) => {
         setFormData(prev => ({
@@ -30,8 +38,6 @@ export function MembershipForm({ plan, onBack }: { plan: any, onBack: () => void
         return region ? region.price : '';
     };
 
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!selectedState) {
@@ -39,52 +45,33 @@ export function MembershipForm({ plan, onBack }: { plan: any, onBack: () => void
             return;
         }
 
+        if (MEMBERSHIP_PRODUCT_VARIANT_ID.includes("REPLACE_WITH_REAL_ID")) {
+            alert("Configuration Error: Please set the Membership Product Variant ID in the code (MembershipForm.tsx).");
+            return;
+        }
+
         setIsSubmitting(true);
 
         try {
-            const payload = {
-                planTitle: plan.title,
-                region: selectedState,
-                price: getSelectedPrice(),
-                fullName: formData.fullName,
-                mobile: formData.mobile,
-                email: formData.email,
-                address: formData.address,
-                landmark: formData.landmark,
-                city: formData.city,
-                pincode: formData.pincode
-            };
+            // Prepare Custom Attributes for Shopify Order
+            const attributes = [
+                { key: "Membership Plan", value: plan.title },
+                { key: "Region", value: selectedState },
+                { key: "Full Name", value: formData.fullName },
+                { key: "Mobile", value: formData.mobile },
+                { key: "Email", value: formData.email },
+                { key: "Address", value: `${formData.address}, ${formData.city} - ${formData.pincode}` }
+            ];
 
-            const response = await fetch('/api/membership', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
+            // Add Membership to Cart
+            await addItem(MEMBERSHIP_PRODUCT_VARIANT_ID, 1, attributes);
 
-            const data = await response.json();
+            // Redirect to Checkout immediately
+            checkout();
 
-            if (!response.ok) {
-                throw new Error(data.message || 'Failed to submit registration');
-            }
-
-            alert('Registration submitted successfully! We will contact you soon.');
-            setFormData({
-                fullName: '',
-                mobile: '',
-                email: '',
-                address: '',
-                landmark: '',
-                city: '',
-                pincode: ''
-            });
-            setSelectedState('');
-            onBack();
         } catch (error) {
             console.error('Submission error:', error);
-            alert(error instanceof Error ? error.message : 'An error occurred while submitting. Please try again.');
-        } finally {
+            alert(error instanceof Error ? error.message : 'Failed to proceed to checkout. Please try again.');
             setIsSubmitting(false);
         }
     };
@@ -281,14 +268,20 @@ export function MembershipForm({ plan, onBack }: { plan: any, onBack: () => void
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="flex-1 py-3 rounded-[10px] font-semibold transition-all duration-300 hover:scale-[1.02] shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+                                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-[10px] font-semibold transition-all duration-300 hover:scale-[1.02] shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
                                 style={{
                                     backgroundColor: '#F3D55B',
                                     color: '#4A3F35',
                                     boxShadow: '0 2px 8px rgba(74, 63, 53, 0.15)'
                                 }}
                             >
-                                {isSubmitting ? 'Processing...' : 'Confirm & Proceed'}
+                                {isSubmitting ? (
+                                    <>
+                                        <Loader2 className="w-5 h-5 animate-spin" /> Processing to Checkout...
+                                    </>
+                                ) : (
+                                    'Confirm & Pay via Shopify'
+                                )}
                             </button>
                         </div>
                     </div>

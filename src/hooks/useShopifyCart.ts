@@ -18,7 +18,7 @@ interface UseShopifyCartState {
   cart: ShopifyCart | null;
   loading: boolean;
   error: Error | null;
-  addItem: (variantId: string, quantity: number) => Promise<void>;
+  addItem: (variantId: string, quantity: number, attributes?: { key: string; value: string }[]) => Promise<void>;
   updateQuantity: (lineId: string, quantity: number) => Promise<void>;
   removeItem: (lineId: string) => Promise<void>;
   checkout: () => void;
@@ -64,7 +64,7 @@ export function useShopifyCart(): UseShopifyCartState {
   }, []);
 
   const addItem = useCallback(
-    async (variantId: string, quantity: number) => {
+    async (variantId: string, quantity: number, attributes?: { key: string; value: string }[]) => {
       if (!cart) {
         throw new Error('Cart not initialized');
       }
@@ -72,7 +72,7 @@ export function useShopifyCart(): UseShopifyCartState {
       try {
         setError(null);
         const updatedCart = await addToCart(cart.id, [
-          { variantId, quantity },
+          { variantId, quantity, attributes },
         ]);
         setCart(updatedCart);
       } catch (err) {
