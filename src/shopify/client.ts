@@ -24,6 +24,7 @@ import {
   CUSTOMER_QUERY,
   CUSTOMER_RECOVER_MUTATION,
   ARTICLES_QUERY,
+  ARTICLE_BY_HANDLE_QUERY,
 } from './queries';
 import { getFromCache, setInCache, invalidateCache } from './cache';
 
@@ -526,13 +527,14 @@ export default {
 /**
  * Get latest articles from all blogs
  */
+
 export async function fetchArticles(limit: number = 4): Promise<any[]> {
   try {
     const data = await executeGraphQL<{
       articles: {
         edges: Array<{ node: any }>;
       };
-    }>(ARTICLES_QUERY, { first: limit }, { cacheTTL: 60 * 60 * 1000 });
+    }>(ARTICLES_QUERY, { first: limit }, { cache: false }); // No cache - always fetch fresh
 
     return data.articles.edges.map((edge) => edge.node);
   } catch (error) {
@@ -541,3 +543,25 @@ export async function fetchArticles(limit: number = 4): Promise<any[]> {
     return [];
   }
 }
+
+/**
+ * Get a single article by handle
+ */
+export async function fetchArticleByHandle(blogHandle: string, articleHandle: string): Promise<any> {
+  try {
+    const data = await executeGraphQL<{
+      blogByHandle: {
+        articleByHandle: any;
+      };
+    }>(ARTICLE_BY_HANDLE_QUERY, { blogHandle, articleHandle }, { cache: true, cacheTTL: 60 * 1000 });
+
+    if (!data.blogByHandle || !data.blogByHandle.articleByHandle) {
+      return null;
+    }
+    return data.blogByHandle.articleByHandle;
+  } catch (error) {
+    console.error('Failed to fetch article:', error);
+    return null;
+  }
+}
+

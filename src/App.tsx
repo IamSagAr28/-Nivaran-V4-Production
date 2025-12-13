@@ -15,6 +15,7 @@ import ShopifyLoginPage from './components/shopify/ShopifyLoginPage';
 import ShopPage from './components/shop/ShopPage';
 import ShopCartPage from './components/shop/ShopCartPage';
 import MembershipPage from './components/MembershipPage';
+import BlogPostPage from './components/BlogPostPage';
 import { CartProvider } from './contexts/CartContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ShopCartProvider } from './contexts/ShopCartContext';
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="/shipping" component={ShippingPage} />
             <Route path="/track-order" component={TrackOrderPage} />
             <Route path="/membership" component={MembershipPage} />
+            <Route path="/blogs/:blogHandle/:articleHandle" component={BlogPostPage} />
           </Router>
         </ShopCartProvider>
       </AuthProvider>

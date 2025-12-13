@@ -14,7 +14,7 @@ export const useRouter = () => {
 
     window.addEventListener('popstate', handleLocationChange);
     window.addEventListener(PUSH_STATE_EVENT, handleLocationChange);
-    
+
     return () => {
       window.removeEventListener('popstate', handleLocationChange);
       window.removeEventListener(PUSH_STATE_EVENT, handleLocationChange);
@@ -37,12 +37,42 @@ export const Router = ({ children, fallback = null }) => {
   const { currentPath } = useRouter();
 
   const childArray = React.Children.toArray(children);
+
+  let params = {};
+
   const matchedChild = childArray.find(child => {
-    return React.isValidElement(child) && child.props.path === currentPath;
+    if (!React.isValidElement(child)) return false;
+
+    const { path } = child.props;
+
+    // Direct match
+    if (path === currentPath) return true;
+
+    // Parameter match (e.g. /blogs/:handle)
+    if (path.includes(':')) {
+      const keys = [];
+      const regexStr = path.replace(/:([^\/]+)/g, (_, key) => {
+        keys.push(key);
+        return '([^/]+)';
+      });
+      // Anchored strictly
+      const regex = new RegExp(`^${regexStr}$`);
+      const match = currentPath.match(regex);
+
+      if (match) {
+        keys.forEach((key, index) => {
+          params[key] = match[index + 1];
+        });
+        return true;
+      }
+    }
+
+    return false;
   });
 
   if (matchedChild) {
-    return matchedChild;
+    const { component: Component } = matchedChild.props;
+    return <Component params={params} />;
   }
 
   // Return fallback component for 404 pages

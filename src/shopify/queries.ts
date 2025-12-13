@@ -716,3 +716,33 @@ export const ARTICLES_QUERY = `
     }
   }
 `;
+
+export const ARTICLE_BY_HANDLE_QUERY = `
+  query GetArticleByHandle($blogHandle: String!, $articleHandle: String!) {
+    blogByHandle(handle: $blogHandle) {
+      articleByHandle(handle: $articleHandle) {
+        id
+        title
+        handle
+        publishedAt
+        contentHtml
+        excerpt
+        image {
+          url
+          altText
+        }
+        authorV2 {
+          name
+        }
+        blog {
+          handle
+          title
+        }
+        seo {
+          title
+          description
+        }
+      }
+    }
+  }
+`;
