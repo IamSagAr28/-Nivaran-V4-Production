@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
-import { motion, useInView, Variants } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import { motion, useInView, Variants, AnimatePresence } from 'framer-motion';
 import { Phone, Mail, Award, ArrowRight, GraduationCap, Building2, Users } from 'lucide-react';
+import { WorkshopForm } from './WorkshopForm';
 
 export const ContactSection = () => {
     const sectionRef = useRef(null);
     const inView = useInView(sectionRef, { once: true, amount: 0.2 });
+    const [showWorkshopForm, setShowWorkshopForm] = useState(false);
 
     const pricingAudiences = [
         { name: 'Schools & Educational Institutions', icon: GraduationCap },
@@ -23,7 +25,31 @@ export const ContactSection = () => {
     };
 
     return (
-        <section id="contact-info" ref={sectionRef} className="py-16 bg-[#FFFBF0]">
+        <section id="contact-info" ref={sectionRef} className="py-16 bg-[#FFFBF0] relative">
+
+            {/* Modal Overlay for Workshop Form */}
+            <AnimatePresence>
+                {showWorkshopForm && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setShowWorkshopForm(false)}
+                            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            className="relative z-10 w-full max-w-lg"
+                        >
+                            <WorkshopForm onClose={() => setShowWorkshopForm(false)} />
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
             <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
                 <style>{`
             .breathing-btn {
@@ -170,8 +196,8 @@ export const ContactSection = () => {
                     </div>
 
                     {/* Book a Workshop Button - Full Width */}
-                    <motion.a
-                        href="tel:+919129455565"
+                    <motion.button
+                        onClick={() => setShowWorkshopForm(true)}
                         className="group/btn w-full flex items-center justify-center py-5 font-bold text-lg transition-all duration-500 shadow-lg shadow-[#F8D548]/30 relative overflow-hidden border-0 breathing-btn"
                         style={{
                             backgroundColor: '#FFF44F', // Lemon yellow background
@@ -208,7 +234,7 @@ export const ContactSection = () => {
                             Book a Workshop
                             <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" style={{ color: '#4a3b2c' }} />
                         </span>
-                    </motion.a>
+                    </motion.button>
                 </div>
             </div>
         </section>
