@@ -97,6 +97,7 @@ export function MembershipForm({ plan, onBack }: { plan: any, onBack: () => void
                         <span className="text-sm font-medium" style={{ color: '#4A3F35' }}>Price:</span>
                         <span className="text-xl font-bold" style={{ color: '#4A3F35' }}>
                             {selectedState ? getSelectedPrice() : 'Select region to see price'}
+                            {selectedState && <span className="text-xs font-normal ml-1 text-gray-600">(Inclusive of GST)</span>}
                         </span>
                     </div>
                 </div>

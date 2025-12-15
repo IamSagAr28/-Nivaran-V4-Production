@@ -212,6 +212,7 @@ export function MembershipPlans() {
                     >
                       <p className="text-sm mb-1 font-medium" style={{ color: '#333333' }}>{region.name}</p>
                       <p className="text-3xl font-bold" style={{ color: '#4A3F35' }}>{region.price}</p>
+                      <p className="text-xs mt-1" style={{ color: '#666666' }}>(Inclusive of GST)</p>
                     </div>
                   ))}
                 </div>
