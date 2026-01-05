@@ -139,7 +139,7 @@ export function useShopifyCart(): UseShopifyCartState {
 
         // Force hostname to myshopify.com to avoid headless redirect loops
         // The user MUST uncheck "Redirect to primary domain" in Shopify Admin for this to work
-        url.hostname = 'nivaranupcyclers.myshopify.com';
+        // url.hostname = 'nivaranupcyclers.myshopify.com';
 
         console.log('Redirecting to checkout:', url.toString());
         window.location.href = url.toString();

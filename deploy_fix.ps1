@@ -1,21 +1,19 @@
-# Automated VPS Deployment Script for Nivaran
-Write-Host "========================================"
-Write-Host "  NIVARAN VPS REPAIR (LINUX ROLLUP FIX)"
-Write-Host "========================================"
-Write-Host ""
-
+# Repair and Redeploy Script
 $SERVER = "root@198.38.84.179"
 $APP_DIR = "/var/www/nivaran"
 
-Write-Host "Connecting to server: $SERVER"
-Write-Host " Fixing platform specific dependencies..."
-Write-Host ""
+Write-Host "Connecting to $SERVER to repair deployment..."
 
-# Execute deployment via SSH with NPM PLATFORM FLAGS
-ssh $SERVER "cd $APP_DIR; rm -rf node_modules package-lock.json; git pull origin main; npm install --include=optional --os=linux --cpu=x64; npm run build; cd server; npm install; pm2 restart nivaran-api; pm2 status; echo '✅ FIXED & DEPLOYED!'"
+# Command to:
+# 1. Go to dir
+# 2. Pull latest code
+# 3. Remove node_modules (Fix corruption)
+# 4. Re-install dependencies
+# 5. Build
+# 6. Restart
 
-Write-Host ""
-Write-Host "========================================"
-Write-Host "  Fix Complete!"
-Write-Host "  Check: https://www.nivaranupcyclers.in"
-Write-Host "========================================"
+$CMD = "cd $APP_DIR; git reset --hard origin/main; rm package-lock.json; rm -rf node_modules; npm install; npm run build; pm2 restart all; pm2 save"
+
+ssh $SERVER $CMD
+
+Write-Host "Repair Finished. Check site."
