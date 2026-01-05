@@ -241,7 +241,10 @@ export function Footer() {
       <div className="border-t border-[#DBB520]">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[#FFF6D1]">
-            <p>© 2025 Nivaran Upcyclers. All rights reserved.</p>
+            <div className="text-center md:text-left">
+              <p>© 2026 Nivaran Upcyclers. All rights reserved.</p>
+              <p className="text-xs mt-1">Designed and Developed by LI-MAT SOFT SOLUTIONS PVT LTD</p>
+            </div>
             <div className="flex gap-6">
               <a href="https://shop.nivaranupcyclers.in/policies/privacy-policy" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Privacy Policy</a>
               <a href="https://shop.nivaranupcyclers.in/policies/terms-of-service" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Terms of Service</a>
