@@ -11,7 +11,8 @@ export default function ProductCard({product, onQuickView, onAddToCart}:{product
       <div 
         onMouseEnter={()=>setHover(true)}
         onMouseLeave={()=>setHover(false)}
-        className="relative w-full h-64 bg-gray-100"
+        onClick={()=>onQuickView(product)}
+        className="relative w-full h-64 bg-gray-100 cursor-pointer"
       >
         <img
           src={hover ? product.images[1] ?? product.images[0] : product.images[0]}

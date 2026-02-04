@@ -43,7 +43,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div className="product-card">
-      <div className="product-card-image">
+      <div 
+        className="product-card-image" 
+        onClick={handleViewDetails}
+        style={{ cursor: 'pointer' }}
+      >
         {firstImage && (
           <img
             src={getOptimizedImageUrl(firstImage.url, 400, 400)}

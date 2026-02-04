@@ -18,15 +18,41 @@ export const ShopifyProductsPage: React.FC = () => {
   const { navigateTo } = useRouter();
   const [addingVariantId, setAddingVariantId] = useState<string | null>(null);
   const [selectedHandle, setSelectedHandle] = useState<string | null>(null);
-  const [initialCategory, setInitialCategory] = useState<string | null>(null);
+  const [initialCategory, setInitialCategory] = useState<string | null>(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('category');
+  });
 
   React.useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const category = params.get('category');
-    if (category) {
-      setInitialCategory(decodeURIComponent(category));
-    }
+    const updateCategory = () => {
+      const params = new URLSearchParams(window.location.search);
+      const category = params.get('category');
+      console.log('📍 ShopifyProductsPage - URL params:', { category, fullURL: window.location.href });
+      setInitialCategory(category);
+    };
+
+    // Listen for pushstate events from our custom router
+    const handlePushState = () => {
+      updateCategory();
+    };
+
+    window.addEventListener('pushstate', handlePushState);
+    window.addEventListener('popstate', handlePushState);
+
+    return () => {
+      window.removeEventListener('pushstate', handlePushState);
+      window.removeEventListener('popstate', handlePushState);
+    };
   }, []);
+
+  React.useEffect(() => {
+    console.log('📦 ShopifyProductsPage - Products state:', {
+      productsCount: products?.length || 0,
+      loading: productsLoading,
+      error: productsError,
+      initialCategory
+    });
+  }, [products, productsLoading, productsError, initialCategory]);
 
   const handleAddToCart = async (variantId: string) => {
     try {

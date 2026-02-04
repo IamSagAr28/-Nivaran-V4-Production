@@ -19,11 +19,15 @@ export function useShopifyProducts(): UseProductsState {
 
   const loadProducts = useCallback(async () => {
     try {
+      console.log('🔄 Starting to fetch products from Shopify...');
       setLoading(true);
       setError(null);
       const data = await fetchProducts(100);
+      console.log('✅ Products fetched successfully:', data.length, 'products');
+      console.log('📋 First product sample:', data[0]);
       setProducts(data);
     } catch (err) {
+      console.error('❌ Failed to fetch products:', err);
       setError(err instanceof Error ? err : new Error('Failed to fetch products'));
       setProducts([]);
     } finally {

@@ -15,7 +15,7 @@ export function CategoryShowcase() {
     if (products && products.length > 0) {
       // Group products by type and get first product from each type
       const categoryMap = new Map();
-      
+
       products.forEach((product: any) => {
         const type = product.productType || 'Other';
         if (!categoryMap.has(type)) {
@@ -24,22 +24,33 @@ export function CategoryShowcase() {
       });
 
       // Convert to array - show up to 4 categories, or if not enough types, show first 4 products
-      let categoriesArray = Array.from(categoryMap.values()).map((product: any) => ({
-        name: product.productType || product.title,
-        image: product.images.edges[0]?.node.url || '',
-        handle: product.handle
-      }));
+      let categoriesArray = Array.from(categoryMap.values()).map((product: any) => {
+        const productType = product.productType || 'Other';
+        return {
+          name: productType,
+          productType: productType, // Store the actual type used for grouping
+          image: product.images.edges[0]?.node.url || '',
+          handle: product.handle
+        };
+      });
+
+      console.log('📂 Categories created:', categoriesArray);
 
       // If we have less than 4 categories, add individual products as categories
       if (categoriesArray.length < 4) {
         const additionalProducts = products
           .filter((p: any) => !categoriesArray.some(c => c.handle === p.handle))
           .slice(0, 4 - categoriesArray.length)
-          .map((product: any) => ({
-            name: product.title,
-            image: product.images.edges[0]?.node.url || '',
-            handle: product.handle
-          }));
+          .map((product: any) => {
+            const productType = product.productType || 'Other';
+            return {
+              name: product.title,
+              productType: productType, // Use the actual productType for filtering
+              image: product.images.edges[0]?.node.url || '',
+              handle: product.handle,
+              isIndividualProduct: true // Flag to indicate this is a specific product, not a category
+            };
+          });
         categoriesArray = [...categoriesArray, ...additionalProducts];
       } else {
         categoriesArray = categoriesArray.slice(0, 4);
@@ -56,7 +67,7 @@ export function CategoryShowcase() {
         const rect = sectionRef.current.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         const sectionHeight = rect.height;
-        
+
         // Calculate when section is in viewport
         if (rect.bottom > 0 && rect.top < windowHeight) {
           // Calculate how much of the section has scrolled past the viewport
@@ -65,7 +76,7 @@ export function CategoryShowcase() {
           const scrollAmount = windowHeight - rect.top;
           const maxScroll = windowHeight + sectionHeight;
           const scrollProgress = Math.max(0, Math.min(1, scrollAmount / maxScroll));
-          
+
           // Parallax effect: background moves slower than content
           // Negative values move background up (creating parallax effect)
           const parallaxSpeed = 0.3; // Adjust this value (0-1) to control parallax intensity
@@ -99,9 +110,9 @@ export function CategoryShowcase() {
   }, []);
 
   return (
-    <section 
+    <section
       ref={sectionRef}
-      id="products" 
+      id="products"
       className="py-16 relative overflow-hidden"
       style={{
         backgroundImage: "url('/images/products/texture.jpg')",
@@ -119,7 +130,7 @@ export function CategoryShowcase() {
         {/* Section Title */}
         <div className="text-center mb-12">
           <div className="inline-block px-6 py-4 rounded-lg bg-black/40 backdrop-blur-sm">
-            <h2 
+            <h2
               className="text-3xl mb-3 font-bold text-white"
               style={{
                 textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.5)',
@@ -127,7 +138,7 @@ export function CategoryShowcase() {
             >
               Shop by Category
             </h2>
-            <p 
+            <p
               className="font-bold text-white"
               style={{
                 textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.5)',
@@ -142,12 +153,26 @@ export function CategoryShowcase() {
         <div className="grid md:grid-cols-4 gap-6">
           {categories.length > 0 ? (
             categories.map((category, index) => (
-              <div 
-                key={category.handle} 
+              <div
+                key={category.handle}
                 className="group cursor-pointer"
-                onClick={() => navigateTo('/products')}
+                onClick={() => {
+                  console.log('🎯 Category clicked:', {
+                    name: category.name,
+                    productType: category.productType,
+                    isIndividualProduct: (category as any).isIndividualProduct
+                  });
+
+                  // If it's an individual product, navigate directly to it
+                  if ((category as any).isIndividualProduct) {
+                    navigateTo(`/product?handle=${category.handle}`);
+                  } else {
+                    // Otherwise navigate to products page with category filter
+                    navigateTo(`/products?category=${encodeURIComponent(category.productType || category.name)}`);
+                  }
+                }}
               >
-                <div 
+                <div
                   className="aspect-[3/4] bg-white overflow-hidden relative flex flex-col"
                   style={{
                     border: '3px solid white',
@@ -163,7 +188,7 @@ export function CategoryShowcase() {
                       style={{ borderTopLeftRadius: '21px', borderTopRightRadius: '21px' }}
                     />
                     {/* Shop Now Overlay */}
-                    <div 
+                    <div
                       className="absolute bottom-0 left-0 bg-black/60 px-4 py-2 text-white text-sm font-semibold"
                       style={{
                         borderTopRightRadius: '8px',

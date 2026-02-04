@@ -31,7 +31,7 @@ import { getFromCache, setInCache, invalidateCache } from './cache';
 // Configuration from environment variables
 const SHOPIFY_STORE_URL = import.meta.env.VITE_SHOPIFY_STORE_URL || 'nivaranupcyclers.myshopify.com';
 const SHOPIFY_STOREFRONT_TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN || '627e86821a39946b5c4ff1b7927a376b';
-const SHOPIFY_API_VERSION = import.meta.env.VITE_SHOPIFY_API_VERSION || '2024-01';
+const SHOPIFY_API_VERSION = import.meta.env.VITE_SHOPIFY_API_VERSION || '2025-01'; // Updated to latest version
 
 if (!SHOPIFY_STORE_URL || !SHOPIFY_STOREFRONT_TOKEN) {
   console.error('❌ Missing Shopify environment variables');
@@ -40,6 +40,13 @@ if (!SHOPIFY_STORE_URL || !SHOPIFY_STOREFRONT_TOKEN) {
 }
 
 const API_ENDPOINT = `https://${SHOPIFY_STORE_URL}/api/${SHOPIFY_API_VERSION}/graphql.json`;
+
+console.log('🏪 Shopify Configuration:', {
+  store: SHOPIFY_STORE_URL,
+  apiVersion: SHOPIFY_API_VERSION,
+  endpoint: API_ENDPOINT,
+  tokenPreview: SHOPIFY_STOREFRONT_TOKEN.substring(0, 10) + '...'
+});
 
 interface GraphQLQuery {
   query: string;
@@ -68,6 +75,7 @@ async function executeGraphQL<T = any>(
     const operationName = extractOperationName(query);
     const cached = getFromCache<T>(operationName, variables);
     if (cached) {
+      console.log('✅ Cache hit:', operationName);
       return cached;
     }
   }
@@ -77,7 +85,14 @@ async function executeGraphQL<T = any>(
     ...(variables && { variables }),
   };
 
+  console.log('🌐 Making Shopify API request to:', API_ENDPOINT);
+  console.log('🔑 Using token:', SHOPIFY_STOREFRONT_TOKEN.substring(0, 10) + '...');
+
   try {
+    // Add timeout to prevent hanging
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     const response = await fetch(API_ENDPOINT, {
       method: 'POST',
       headers: {
@@ -85,13 +100,21 @@ async function executeGraphQL<T = any>(
         'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_TOKEN,
       },
       body: JSON.stringify(payload),
+      signal: controller.signal,
     });
 
+    clearTimeout(timeoutId);
+
+    console.log('📡 Response status:', response.status, response.statusText);
+
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('❌ Response error:', errorText);
+      throw new Error(`HTTP ${response.status}: ${response.statusText} - ${errorText}`);
     }
 
     const result: APIResponse<T> = await response.json();
+    console.log('📦 Response data:', result);
 
     if (result.errors && result.errors.length > 0) {
       const errorMessages = result.errors.map((e) => e.message).join(', ');
@@ -110,6 +133,10 @@ async function executeGraphQL<T = any>(
 
     return result.data;
   } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      console.error('❌ Shopify API request timed out after 10 seconds');
+      throw new Error('Shopify API request timed out. Please check your internet connection and Shopify credentials.');
+    }
     console.error('❌ Shopify API Error:', error);
     throw error;
   }

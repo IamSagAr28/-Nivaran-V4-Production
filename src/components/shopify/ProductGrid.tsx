@@ -56,6 +56,22 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
     availability: true,
   });
 
+  // Update filters when initialCategory changes (e.g. from header click)
+  React.useEffect(() => {
+    if (initialCategory) {
+      setFilters(prev => ({
+        ...prev,
+        tags: [initialCategory]
+      }));
+    } else if (initialCategory === null && window.location.search === '') {
+      // Clear filters if category is explicitly null and we have no search params
+      setFilters(prev => ({
+        ...prev,
+        tags: []
+      }));
+    }
+  }, [initialCategory]);
+
   // Extract unique tags/categories
   const availableCategories = useMemo(() => {
     const categories = new Set<string>();
@@ -65,6 +81,17 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
     });
     return Array.from(categories).sort();
   }, [products]);
+
+  // Debug: Log filter state and available categories
+  React.useEffect(() => {
+    console.log('🔍 ProductGrid Debug:', {
+      initialCategory,
+      currentFilters: filters.tags,
+      availableCategories,
+      totalProducts: products.length,
+      productTypes: products.map(p => p.productType).filter(Boolean)
+    });
+  }, [initialCategory, filters.tags, availableCategories, products]);
 
   // Calculate price range
   const priceRange = useMemo(() => {

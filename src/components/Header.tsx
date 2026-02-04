@@ -143,8 +143,8 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
       let categoriesArray = Array.from(categoryMap.values());
       console.log(`Found ${categoriesArray.length} categories from product types`);
 
-      // If we have fewer than 8 categories, fill with individual products that have images
-      if (categoriesArray.length < 8) {
+      // If we have fewer than 9 categories, fill with individual products that have images
+      if (categoriesArray.length < 9) {
         const existingNames = new Set(categoriesArray.map(c => c.name));
         const additionalProducts = products
           .filter((p: any) => {
@@ -153,7 +153,7 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
               p.image?.url;
             return !existingNames.has(p.title) && hasImage;
           })
-          .slice(0, 8 - categoriesArray.length)
+          .slice(0, 9 - categoriesArray.length)
           .map((product: any) => ({
             name: product.title,
             image: product.images?.edges?.[0]?.node?.url ||
@@ -197,7 +197,7 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
               p.images?.[0]?.url ||
               p.image?.url;
           })
-          .slice(0, 8)
+          .slice(0, 9)
           .map((product: any) => ({
             name: product.title,
             image: product.images?.edges?.[0]?.node?.url ||
@@ -436,7 +436,7 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
               className="category-strip"
               style={{
                 display: 'grid',
-                gridTemplateColumns: loading || categories.length === 0 ? 'repeat(8, 1fr)' : `repeat(${Math.min(categories.length, 8)}, 1fr)`,
+                gridTemplateColumns: loading || categories.length === 0 ? 'repeat(9, 1fr)' : `repeat(${Math.min(categories.length, 9)}, 1fr)`,
                 gap: '1.5rem',
                 alignItems: 'start',
                 justifyItems: 'center',
@@ -472,7 +472,7 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
                 }
               `}</style>
               {loading ? (
-                Array(8).fill(0).map((_, i) => (
+                Array(9).fill(0).map((_, i) => (
                   <div key={i} className="flex flex-col items-center gap-3 min-w-[80px] flex-shrink-0">
                     <div
                       className="w-20 h-20 md:w-24 md:h-24 bg-gray-200 animate-pulse"
