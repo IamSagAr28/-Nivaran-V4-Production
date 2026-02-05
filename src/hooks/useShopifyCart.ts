@@ -2,7 +2,7 @@
 // Custom hook for managing Shopify cart state and operations
 
 import { useState, useCallback, useEffect } from 'react';
-import type { ShopifyCart, ShopifyVariant } from '../shopify/types';
+import type { ShopifyCart, ShopifyVariant, CheckoutOptions } from '../shopify/types';
 import {
   createCart,
   addToCart,
@@ -21,7 +21,7 @@ interface UseShopifyCartState {
   addItem: (variantId: string, quantity: number, attributes?: { key: string; value: string }[]) => Promise<void>;
   updateQuantity: (lineId: string, quantity: number) => Promise<void>;
   removeItem: (lineId: string) => Promise<void>;
-  checkout: () => void;
+  checkout: (options?: CheckoutOptions) => void;
   itemCount: number;
   subtotal: string;
 }
@@ -41,8 +41,15 @@ export function useShopifyCart(): UseShopifyCartState {
         let cartData: ShopifyCart | null = null;
 
         if (savedCartId) {
-          // Try to recover existing cart
-          cartData = await fetchCart(savedCartId);
+          try {
+            // Try to recover existing cart
+            cartData = await fetchCart(savedCartId);
+          } catch (e) {
+            console.warn('Failed to recover cart, creating new one:', e);
+            // If fetch fails, we'll fall through to create a new cart
+            cartData = null;
+            safeLocalStorage.removeItem(CART_ID_KEY);
+          }
         }
 
         if (!cartData) {
@@ -131,11 +138,29 @@ export function useShopifyCart(): UseShopifyCartState {
     [cart]
   );
 
-  const checkout = useCallback(() => {
+  const checkout = useCallback((options?: CheckoutOptions) => {
     if (cart?.checkoutUrl) {
       try {
         console.log('Original checkout URL:', cart.checkoutUrl);
         const url = new URL(cart.checkoutUrl);
+
+        if (options) {
+          if (options.email) {
+            url.searchParams.append('checkout[email]', options.email);
+          }
+
+          if (options.shippingAddress) {
+            const { firstName, lastName, address1, city, province, zip, country, phone } = options.shippingAddress;
+            if (firstName) url.searchParams.append('checkout[shipping_address][first_name]', firstName);
+            if (lastName) url.searchParams.append('checkout[shipping_address][last_name]', lastName);
+            if (address1) url.searchParams.append('checkout[shipping_address][address1]', address1);
+            if (city) url.searchParams.append('checkout[shipping_address][city]', city);
+            if (province) url.searchParams.append('checkout[shipping_address][province]', province);
+            if (zip) url.searchParams.append('checkout[shipping_address][zip]', zip);
+            if (country) url.searchParams.append('checkout[shipping_address][country]', country);
+            if (phone) url.searchParams.append('checkout[shipping_address][phone]', phone);
+          }
+        }
 
         // Force hostname to myshopify.com to avoid headless redirect loops
         // The user MUST uncheck "Redirect to primary domain" in Shopify Admin for this to work

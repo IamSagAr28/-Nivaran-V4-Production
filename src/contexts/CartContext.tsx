@@ -3,16 +3,16 @@
 
 import React, { createContext, useContext, ReactNode } from 'react';
 import { useShopifyCart } from '../hooks/useShopifyCart';
-import type { ShopifyCart } from '../shopify/types';
+import type { ShopifyCart, CheckoutOptions } from '../shopify/types';
 
 interface CartContextType {
   cart: ShopifyCart | null;
   loading: boolean;
   error: Error | null;
-  addItem: (variantId: string, quantity: number) => Promise<void>;
+  addItem: (variantId: string, quantity: number, attributes?: { key: string; value: string }[]) => Promise<void>;
   updateQuantity: (lineId: string, quantity: number) => Promise<void>;
   removeItem: (lineId: string) => Promise<void>;
-  checkout: () => void;
+  checkout: (options?: CheckoutOptions) => void;
   itemCount: number;
   subtotal: string;
 }

@@ -153,6 +153,20 @@ export interface ShopifyShop {
   };
 }
 
+export interface CheckoutOptions {
+  email?: string;
+  shippingAddress?: {
+    firstName?: string;
+    lastName?: string;
+    address1?: string;
+    city?: string;
+    province?: string;
+    zip?: string;
+    country?: string;
+    phone?: string;
+  };
+}
+
 export interface APIResponse<T> {
   data?: T;
   errors?: Array<{

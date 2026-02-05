@@ -68,7 +68,24 @@ export function MembershipForm({ plan, onBack }: { plan: any, onBack: () => void
             await addItem(variantId, 1, attributes);
 
             // Redirect to Checkout immediately
-            checkout();
+            // Split name
+            const nameParts = formData.fullName.trim().split(' ');
+            const firstName = nameParts[0] || '';
+            const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '.';
+
+            checkout({
+                email: formData.email,
+                shippingAddress: {
+                    firstName,
+                    lastName,
+                    address1: formData.landmark ? `${formData.address}, ${formData.landmark}` : formData.address,
+                    city: formData.city,
+                    province: selectedState,
+                    zip: formData.pincode,
+                    country: 'India',
+                    phone: formData.mobile
+                }
+            });
 
         } catch (error) {
             console.error('Submission error:', error);
