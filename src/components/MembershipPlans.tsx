@@ -25,13 +25,13 @@ export function MembershipPlans() {
       title: "Single Pickup Plan",
       regions: [
         { name: "U.P & Delhi NCR", price: "₹1,500" },
-        { name: "Other States of India", price: "₹2,000" }
+        { name: "Other States of India", price: "₹2,100" }
       ],
       features: [
         "One carton for storing used pooja materials at home shall be sent to you",
-        "Weight of packed carton which you can give us should be upto 6kg",
+        "Weight of packed carton which you can give us should be upto 5kg",
         "Validity: 3 months",
-        "You can even custom your gift box and select products worth Rs.600 from our catalogue"
+        "You can even customise your gift box and select products worth Rs.600 from our catalogue"
       ],
       popular: false
     },
@@ -44,7 +44,7 @@ export function MembershipPlans() {
       features: [
         "Everything same as Single Pickup Plan",
         "Two cartons for storing used pooja materials at home shall be sent to you",
-        "Weight of packed carton which you can give us should be upto 6kg",
+        "Weight of packed carton which you can give us should be upto 5kg",
         "Validity: 6 months"
       ],
       popular: true
@@ -58,7 +58,7 @@ export function MembershipPlans() {
       features: [
         "Everything same as Single Pickup Plan",
         "Four cartons for storing used pooja materials",
-        "Weight of packed carton which you can give us should be upto 6kg",
+        "Weight of packed carton which you can give us should be upto 5kg",
         "Validity: 12 months",
         "Priority pickup scheduling"
       ],

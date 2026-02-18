@@ -67,10 +67,10 @@ export function Footer() {
                       target.style.display = 'none';
                     }}
                   />
-                  <h3 className="text-2xl font-bold text-[#F8D548]">Nivaran Upcyclers</h3>
+                  <h3 className="text-2xl font-bold text-[#F8D548]">Nivaran<sup className="text-sm ml-0.5">TM</sup> Upcyclers</h3>
                 </div>
                 <p className="text-[#FFF6D1]">
-                  A social impact startup working in pooja waste disposal management and production of upcycled handicrafts. Revolutionizing traditional practices into opportunities for positive environmental impact.
+                  Nivaran is a social impact startup incubated with Uttar Pradesh Textile Technology Institute,Kanpur and Chhatrapati Shahu Ji Maharaj Universitu,Kanpur.
                 </p>
                 <div className="flex gap-3 pt-4">
                   <a

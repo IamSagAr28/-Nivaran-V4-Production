@@ -171,7 +171,7 @@ export default function CartPage() {
                                     </div>
                                     <div className="flex justify-between items-center text-gray-600">
                                         <span>Shipping</span>
-                                        <span className="text-sm italic">Calculated at checkout</span>
+                                        <span className="text-sm italic">Calculated at checkout (Standard delivery charges apply below ₹999)</span>
                                     </div>
                                 </div>
 
@@ -186,7 +186,7 @@ export default function CartPage() {
                                 </div>
 
                                 <button
-                                    onClick={checkout}
+                                    onClick={() => checkout()}
                                     disabled={loading}
                                     className="w-full py-4 rounded-xl bg-[#F8D548] text-[#1B4332] font-bold text-lg hover:bg-[#F3D55B] hover:shadow-lg transform transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed mb-3"
                                 >

@@ -315,7 +315,7 @@ export function Header({ showCategories = false }: { showCategories?: boolean })
               }}
             />
             <div>
-              <h1 className="text-3xl font-black tracking-tight" style={{ fontWeight: 900, color: '#1B4332' }}>Nivaran</h1>
+              <h1 className="text-3xl font-black tracking-tight" style={{ fontWeight: 900, color: '#1B4332' }}>Nivaran<sup className="text-xs align-top ml-0.5">TM</sup></h1>
               <p className="text-base font-bold tracking-wide" style={{ color: '#2E6F40' }}>Upcyclers</p>
             </div>
           </div>
