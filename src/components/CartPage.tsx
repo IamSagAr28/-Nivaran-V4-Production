@@ -171,14 +171,19 @@ export default function CartPage() {
                                     </div>
                                     <div className="flex justify-between items-center text-gray-600">
                                         <span>Shipping</span>
-                                        <span className="text-sm italic">Calculated at checkout (Standard delivery charges apply below ₹999)</span>
+                                        <span className={parseFloat(subtotal) >= 999 ? "text-green-600 font-medium" : "font-medium text-[#4A3F35]"}>
+                                            {parseFloat(subtotal) >= 999 ? 'FREE' : '₹150.00'}
+                                        </span>
                                     </div>
+                                    {parseFloat(subtotal) < 999 && (
+                                        <p className="text-xs text-gray-500 italic -mt-2">Free shipping on orders above ₹999</p>
+                                    )}
                                 </div>
 
                                 <div className="flex justify-between items-center text-lg font-bold text-[#1B4332] mb-6">
                                     <span>Total</span>
                                     <span>
-                                        {parseFloat(subtotal).toLocaleString('en-IN', {
+                                        {(parseFloat(subtotal) + (parseFloat(subtotal) >= 999 ? 0 : 150)).toLocaleString('en-IN', {
                                             style: 'currency',
                                             currency: cart.cost.subtotalAmount.currencyCode || 'INR'
                                         })}

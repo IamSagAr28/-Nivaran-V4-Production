@@ -31,8 +31,11 @@ export const ShopifyCartPage: React.FC = () => {
 
   const isEmpty = !cart || !cart.lines || cart.lines.length === 0;
   const subtotal = cart?.cost?.subtotalAmount?.amount || '0';
-  const total = cart?.cost?.totalAmount?.amount || '0';
   const tax = cart?.cost?.totalTaxAmount?.amount || '0';
+  const subtotalNum = parseFloat(subtotal);
+  const taxNum = parseFloat(tax);
+  const estimatedShipping = subtotalNum >= 999 ? 0 : 150;
+  const estimatedTotal = subtotalNum + taxNum + estimatedShipping;
 
   const handleUpdateQuantity = async (lineId: string, newQuantity: number) => {
     if (newQuantity <= 0) {
@@ -220,11 +223,13 @@ export const ShopifyCartPage: React.FC = () => {
                   </div>
                   <div className="summary-row shipping">
                     <span>Shipping</span>
-                    <span>Calculated at checkout</span>
+                    <span className={estimatedShipping === 0 ? "shipping-free" : ""}>
+                      {estimatedShipping === 0 ? 'FREE' : formatPrice(estimatedShipping.toString())}
+                    </span>
                   </div>
                   <div className="summary-row total">
                     <span>Total</span>
-                    <span className="total-amount">{formatPrice(total)}</span>
+                    <span className="total-amount">{formatPrice(estimatedTotal.toString())}</span>
                   </div>
                 </div>
 

@@ -3,7 +3,7 @@ import type { Product } from '../../data/products'
 
 export default function OrderSummary({ items, onApplyCoupon }: { items: (Product & { qty: number })[]; onApplyCoupon: (code: string) => void }) {
   const subtotal = useMemo(() => items.reduce((s, i) => s + i.price * i.qty, 0), [items])
-  const shipping = subtotal > 100 ? 0 : 6.99
+  const estimatedShipping = subtotal >= 999 ? 0 : 150; // Free shipping over ₹999, else ₹150 charge
   const taxes = subtotal * 0.06
   const [code, setCode] = useState('')
 
@@ -16,13 +16,13 @@ export default function OrderSummary({ items, onApplyCoupon }: { items: (Product
 
       <div className="space-y-2">
         <div className="flex justify-between text-sm"><span>Subtotal</span><span>₹{subtotal.toFixed(2)}</span></div>
-        <div className="flex justify-between text-sm"><span>Shipping</span><span>₹{shipping.toFixed(2)}</span></div>
+        <div className="flex justify-between text-sm"><span>Shipping</span><span>₹{estimatedShipping.toFixed(2)}</span></div>
         <div className="flex justify-between text-sm"><span>Taxes</span><span>₹{taxes.toFixed(2)}</span></div>
 
         <div className="border-t pt-3 mt-2">
           <div className="flex justify-between items-baseline">
             <span className="font-medium text-base">Total</span>
-            <span className="font-extrabold text-2xl text-[#DBB520]">₹{(subtotal + shipping + taxes).toFixed(2)}</span>
+            <span className="font-extrabold text-2xl text-[#DBB520]">₹{(subtotal + estimatedShipping + taxes).toFixed(2)}</span>
           </div>
         </div>
       </div>

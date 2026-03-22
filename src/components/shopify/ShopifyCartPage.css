@@ -314,8 +314,9 @@
   margin-bottom: 0;
 }
 
-.summary-row.shipping {
-  font-size: 13px;
+.summary-row.shipping .shipping-free {
+  color: #10b981;
+  font-weight: 700;
 }
 
 .summary-row.total {
